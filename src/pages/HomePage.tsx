@@ -5,10 +5,11 @@ import { Button } from '../components/common/Button';
 import { ServiceCard } from '../components/service/ServiceCard';
 import { ProductCard } from '../components/product/ProductCard';
 import { TestimonialCard } from '../components/testimonial/TestimonialCard';
-import { ChevronRightIcon, ChevronLeftIcon, LightBulbIcon } from '../assets/icons';
+import { ChevronRightIcon, ChevronLeftIcon, RobotIcon } from '../assets/icons';
 import { TUTOR_NAME, servicesData, courseSections, storeProductsData, testimonials, freeResourcesData } from '../data';
 import useIntersectionObserver from '../utils/useIntersectionObserver';
 import { Product } from '../types';
+import { AnimatedGeometricBackground } from '../components/common/AnimatedGeometricBackground';
 
 // Helper component for animated sections
 const AnimatedSection: React.FC<{ children: React.ReactNode; animationClass: string }> = ({ children, animationClass }) => {
@@ -47,96 +48,63 @@ export const HomePage: React.FC = () => {
   return (
     <div className="animate-fade-in-up scroll-smooth">
       {/* Hero Section - Full viewport height */}
-      <section className="min-h-screen flex items-center justify-center bg-gradient-to-br from-neutral-bg via-neutral-surface to-neutral-bg text-center relative overflow-hidden transition-all duration-700 ease-in-out">
-        {/* Enhanced Drifting Planets Background */}
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <div
-            className="absolute rounded-full bg-gradient-to-br from-brand-primary-alt/30 to-brand-primary-alt/50 animate-drift blur-sm" 
-            style={{
-              width: '180px', height: '180px', top: '8%', left: '8%',
-              '--drift-duration': '90s', 
-              '--drift-start-x': '0px', '--drift-start-y': '0px', '--drift-start-opacity': '0.4',
-              '--drift-end-x': '40px', '--drift-end-y': '60px', '--drift-end-opacity': '0.7', '--drift-end-scale': '1.2',
-            } as React.CSSProperties}
-          />
-          <div
-            className="absolute rounded-full bg-gradient-to-br from-brand-secondary-alt/25 to-brand-secondary-alt/40 animate-drift blur-sm" 
-            style={{
-              width: '120px', height: '120px', top: '60%', left: '78%',
-              '--drift-duration': '110s', 
-              '--drift-start-x': '0px', '--drift-start-y': '0px', '--drift-start-opacity': '0.3',
-              '--drift-end-x': '-50px', '--drift-end-y': '-70px', '--drift-end-opacity': '0.6', '--drift-end-scale': '0.8',
-            } as React.CSSProperties}
-          />
-          <div
-            className="absolute rounded-full bg-gradient-to-br from-brand-accent/20 to-brand-accent/35 animate-drift blur-sm" 
-            style={{
-              width: '90px', height: '90px', top: '15%', left: '82%',
-              '--drift-duration': '76s', 
-              '--drift-start-x': '0px', '--drift-start-y': '0px', '--drift-start-opacity': '0.5',
-              '--drift-end-x': '30px', '--drift-end-y': '-40px', '--drift-end-opacity': '0.3', '--drift-end-scale': '1.1',
-            } as React.CSSProperties}
-          />
-           <div
-            className="absolute rounded-full bg-gradient-to-br from-sky-400/25 to-sky-500/40 animate-drift blur-sm" 
-            style={{
-              width: '240px', height: '240px', top: '45%', left: '20%',
-              '--drift-duration': '130s', 
-              '--drift-start-x': '0px', '--drift-start-y': '0px', '--drift-start-opacity': '0.2',
-              '--drift-end-x': '-60px', '--drift-end-y': '30px', '--drift-end-opacity': '0.5', '--drift-end-scale': '1.05',
-            } as React.CSSProperties}
-          />
-        </div>
+      <section className="min-h-screen flex items-center justify-center bg-neutral-bg text-center relative overflow-hidden">
+        {/* Animated Geometric Background */}
+        <AnimatedGeometricBackground />
         
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-          <h1 className="text-5xl sm:text-6xl md:text-7xl font-heading font-extrabold tracking-tight mb-8 leading-tight">
-            <span 
-              className="block bg-clip-text text-transparent bg-gradient-to-r from-brand-secondary via-brand-primary to-brand-primary-alt animate-textShimmer" 
-              style={{ backgroundSize: '300% 100%' }} 
-            >
-              Unlock Your Potential in
-            </span>
-            <span className="block text-text-primary mt-2 opacity-0 animate-fade-in-up-slight [animation-delay:400ms]">
-              Maths, Physics & Coding
-            </span>
-          </h1>
-          <p className="mt-8 max-w-3xl mx-auto text-xl sm:text-2xl text-text-secondary opacity-0 animate-fade-in-up-slight [animation-delay:700ms] leading-relaxed">
-            Expert online tutoring by {TUTOR_NAME} for UK & USA education systems in Maths, Physics, and Computer Science. Achieve your academic goals with personalized guidance.
-          </p>
-          <div className="mt-12 flex flex-col sm:flex-row justify-center items-center space-y-6 sm:space-y-0 sm:space-x-8 opacity-0 animate-fade-in-up-slight [animation-delay:1000ms]">
-            <Button variant="primary" size="lg" onClick={() => navigate('/services')} className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Explore Services <ChevronRightIcon />
-            </Button>
-            <Button variant="outline" size="lg" onClick={() => navigate('/learning-resources')} className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl">
-              Explore Resources <ChevronRightIcon />
-            </Button>
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
+          <div className="max-w-4xl mx-auto opacity-0 animate-[fadeZoom_1s_ease-out_forwards]">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tighter mb-6 leading-tight">
+              <span className="block bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary/80 leading-tight">
+                Unlock Your Potential in
+              </span>
+              <span className="block mt-1 sm:mt-2 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent animate-textShimmer" style={{'--shimmer-duration': '5s'} as React.CSSProperties}>
+                Maths, Physics & Coding
+              </span>
+            </h1>
+            <p className="mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary opacity-90 leading-relaxed">
+              Expert online tutoring by {TUTOR_NAME} for UK & USA education systems in Maths, Physics, and Computer Science. Achieve your academic goals with personalized guidance.
+            </p>
+            <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
+              <Button variant="primary" size="lg" onClick={() => navigate('/services')} className="shadow-lg hover:shadow-xl w-full sm:w-auto">
+                Explore Services
+              </Button>
+              <Button variant="outline" size="lg" onClick={() => navigate('/learning-resources')} className="w-full sm:w-auto">
+                Free Resources
+              </Button>
+              <Button variant="secondary" size="lg" onClick={() => navigate('/study-tips')} className="flex items-center gap-2 w-full sm:w-auto">
+                <RobotIcon className="w-5 h-5" />
+                AI Study Tools
+              </Button>
+            </div>
           </div>
         </div>
         
         {/* Gradient overlay for seamless transition to white sections */}
-        <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-transparent to-neutral-surface pointer-events-none"></div>
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-bg to-transparent pointer-events-none z-30"></div>
       </section>
 
       {/* About Preview - Standardized white background */}
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
         <div className="bg-neutral-surface py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
-          <Section title={`Meet ${TUTOR_NAME}`} subtitle="Your Dedicated Maths, Physics & Coding Expert" className="relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
+          <Section title={`Meet ${TUTOR_NAME}`} subtitle="Your Dedicated Maths, Physics & Coding Expert" className="relative z-10" titleClassName="text-3xl sm:text-4xl">
+            <div className="max-w-4xl mx-auto text-center bg-neutral-surface p-6 sm:p-8 rounded-xl border border-neutral-border shadow-lg hover:shadow-xl transition-shadow duration-300">
               <div className="relative inline-block mb-8">
                 <img 
                   src="https://picsum.photos/seed/doyle/200/200" 
                   alt={TUTOR_NAME} 
-                  className="w-48 h-48 rounded-2xl object-cover mx-auto border-4 border-brand-primary/30 shadow-2xl transform hover:scale-105 transition-all duration-500" 
+                  className="w-48 h-48 rounded-2xl object-cover mx-auto border-4 border-brand-primary/30 shadow-2xl transform hover:scale-105 transition-all duration-500 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" 
+                  style={{animationDelay:'0.1s'}}
                 />
                 <div className="absolute -inset-4 bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 rounded-3xl blur-xl opacity-50"></div>
               </div>
-              <p className="text-xl sm:text-2xl text-text-secondary mb-8 leading-relaxed max-w-3xl mx-auto">
+              <p className="text-base sm:text-lg text-text-secondary mb-8 leading-relaxed max-w-3xl mx-auto opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.25s'}}>
                 With a PhD and years of experience teaching students across the UK and USA, {TUTOR_NAME} offers a unique blend of deep subject knowledge and tailored teaching strategies to help you succeed in Maths, Physics, and Computer Science.
               </p>
               <Button 
                 variant="secondary" 
                 onClick={() => navigate('/about')}
-                className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.4s'}}
               >
                 Learn More About Dr. Doyle <ChevronRightIcon />
               </Button>
@@ -151,7 +119,7 @@ export const HomePage: React.FC = () => {
           <Section 
             title="Our Tutoring Services" 
             subtitle="Specialized support for UK and USA curricula." 
-            className="relative z-10"
+            className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
             <div className="relative group">
               {/* Left Scroll Button */}
@@ -175,9 +143,9 @@ export const HomePage: React.FC = () => {
                     className="snap-center flex-shrink-0 w-[85%] sm:w-[45%] md:w-[40%] lg:w-[30%] transition-shadow duration-300 ease-in-out"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <div className="bg-white rounded-lg border border-neutral-border shadow-sm h-full hover:shadow-md transition-shadow duration-200 flex flex-col overflow-hidden">
+                    <div className="bg-white rounded-xl border border-neutral-border hover:border-brand-primary/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden">
                       {level.imageUrl && (
-                        <div className="h-48 overflow-hidden">
+                        <div className="h-48 overflow-hidden rounded-t-xl">
                           <img 
                             src={level.imageUrl} 
                             alt={level.name}
@@ -238,7 +206,7 @@ export const HomePage: React.FC = () => {
       {/* Store Preview / Learning Resources Preview - Standardized white background */}
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
         <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
-          <Section title="Digital Learning Materials" subtitle="High-quality resources to boost your studies." className="relative z-10">
+          <Section title="Digital Learning Materials" subtitle="High-quality resources to boost your studies." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
             <div className="relative group">
               {/* Left Scroll Button */}
               <button 
@@ -290,40 +258,13 @@ export const HomePage: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* AI Study Tools Section - New */}
-      <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
-        <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
-          <Section 
-            title="Explore Our AI Study Tools" 
-            subtitle="Get instant help and motivation with our smart learning companions."
-            className="relative z-10"
-          >
-            <div className="max-w-3xl mx-auto text-center">
-              <div className="flex justify-center mb-8">
-                <LightBulbIcon className="w-16 h-16 text-brand-primary opacity-80" />
-              </div>
-              <p className="text-xl sm:text-2xl text-text-secondary mb-8 leading-relaxed">
-                Need a quick motivational boost or help solving a tricky physics problem? Our AI tools are here to assist you with instant quotes and step-by-step solutions.
-              </p>
-              <Button 
-                variant="primary" 
-                onClick={() => navigate('/study-tips')}
-                className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                Try AI Study Tips <ChevronRightIcon />
-              </Button>
-            </div>
-          </Section>
-        </div>
-      </AnimatedSection>
-
       {/* Testimonials - Standardized white background */}
       <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
         <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16">
           <Section 
             title="What Our Students Say" 
             subtitle="Success stories from learners like you." 
-            className="relative z-10"
+            className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
             <div className="relative group">
               {/* Left Scroll Button */}
