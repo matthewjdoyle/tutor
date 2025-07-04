@@ -57,15 +57,15 @@ export const HomePage: React.FC = () => {
           <div className="max-w-4xl mx-auto opacity-0 animate-[fadeZoom_1s_ease-out_forwards]">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tighter mb-6 leading-tight">
               <span className="block bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary/80 leading-tight">
-                Unlock Your Potential in
+                Dr. Matt Doyle
               </span>
               <span className="block mt-1 sm:mt-2 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent animate-textShimmer" style={{'--shimmer-duration': '5s'} as React.CSSProperties}>
-                Maths, Physics & Coding
+                Online Tutor for Maths, Physics & Computer Science
               </span>
             </h1>
-            <p className="mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary opacity-90 leading-relaxed">
+            {/* <p className="mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary opacity-90 leading-relaxed">
               Expert online tutoring by {TUTOR_NAME} for UK & USA education systems in Maths, Physics, and Computer Science. Achieve your academic goals with personalized guidance.
-            </p>
+            </p> */}
             <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
               <Button variant="primary" size="lg" onClick={() => navigate('/services')} className="shadow-lg hover:shadow-xl w-full sm:w-auto">
                 Explore Services
