@@ -56,7 +56,7 @@ export const HomePage: React.FC = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="max-w-4xl mx-auto opacity-0 animate-[fadeZoom_1s_ease-out_forwards]">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-heading font-extrabold tracking-tighter mb-6 leading-tight">
-              <span className="block bg-clip-text text-transparent bg-gradient-to-br from-text-primary to-text-secondary/80 leading-tight">
+              <span className="block text-black leading-tight">
                 Dr. Matt Doyle
               </span>
               <span className="block mt-1 sm:mt-2 bg-clip-text text-transparent bg-gradient-to-r from-brand-primary via-brand-secondary to-brand-accent animate-textShimmer" style={{'--shimmer-duration': '5s'} as React.CSSProperties}>
@@ -146,8 +146,8 @@ export const HomePage: React.FC = () => {
           <div className="absolute inset-0 bg-pattern-grid opacity-15" />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-secondary-100/20 to-transparent" />
           <Section 
-            title="Our Tutoring Services" 
-            subtitle="Specialized support for UK and USA curricula." 
+            title="Available Courses" 
+            subtitle="Support for UK and worldwide students." 
             className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
             <div className="relative group">
@@ -237,7 +237,7 @@ export const HomePage: React.FC = () => {
         <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-pattern-dots opacity-12" />
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
-          <Section title="Digital Learning Materials" subtitle="High-quality resources to boost your studies." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
+          <Section title="Learning Resources" subtitle="To use alongside your school work and help with revision." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
             <div className="relative group">
               {/* Left Scroll Button */}
               <button 
@@ -295,8 +295,7 @@ export const HomePage: React.FC = () => {
           <div className="absolute inset-0 bg-pattern-waves opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-secondary-100/25 to-transparent" />
           <Section 
-            title="What Our Students Say" 
-            subtitle="Success stories from learners like you." 
+            title="Student Testimonials" 
             className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
             <div className="relative group">
