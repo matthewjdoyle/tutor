@@ -17,7 +17,7 @@ export const AboutPage: React.FC = () => {
         <div className="md:flex md:items-start md:space-x-10">
           <div className="md:w-1/3 text-center mb-8 md:mb-0 flex-shrink-0">
             <img 
-              src="https://picsum.photos/seed/doyle_profile/400/400" 
+              src="portrait.JPEG"
               alt={TUTOR_NAME} 
               className="w-48 h-48 sm:w-60 sm:h-60 rounded-xl object-cover mx-auto border-2 border-brand-primary/50" 
             />

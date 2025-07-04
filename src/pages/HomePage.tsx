@@ -48,9 +48,10 @@ export const HomePage: React.FC = () => {
   return (
     <div className="animate-fade-in-up scroll-smooth">
       {/* Hero Section - Full viewport height */}
-      <section className="min-h-screen flex items-center justify-center bg-neutral-bg text-center relative overflow-hidden">
-        {/* Animated Geometric Background */}
-        <AnimatedGeometricBackground />
+      <section className="min-h-screen flex items-center justify-center bg-gradient-mesh text-center relative overflow-hidden">
+        {/* Beautiful Background Pattern */}
+        <div className="absolute inset-0 bg-pattern-dots opacity-30" />
+        <div className="absolute inset-0 bg-gradient-hero" />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
           <div className="max-w-4xl mx-auto opacity-0 animate-[fadeZoom_1s_ease-out_forwards]">
@@ -80,18 +81,20 @@ export const HomePage: React.FC = () => {
           </div>
         </div>
         
-        {/* Gradient overlay for seamless transition to white sections */}
-        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-neutral-bg to-transparent pointer-events-none z-30"></div>
+        {/* Gradient overlay for seamless transition */}
+        <div className="absolute bottom-0 left-0 right-0 h-40 bg-gradient-to-t from-background-primary to-transparent pointer-events-none z-30"></div>
       </section>
 
-      {/* About Preview - Standardized white background */}
+      {/* About Preview - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
-        <div className="bg-neutral-surface py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
+        <div className="bg-gradient-to-br from-primary-50/30 via-surface-primary/80 to-secondary-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
+          <div className="absolute inset-0 bg-pattern-waves opacity-10" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-100/20 to-transparent" />
           <Section title={`Meet ${TUTOR_NAME}`} subtitle="Your Dedicated Maths, Physics & Coding Expert" className="relative z-10" titleClassName="text-3xl sm:text-4xl">
-            <div className="max-w-4xl mx-auto text-center bg-neutral-surface p-6 sm:p-8 rounded-xl border border-neutral-border shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div className="max-w-4xl mx-auto text-center card-elevated p-6 sm:p-8 rounded-xl hover:shadow-xl transition-shadow duration-300">
               <div className="relative inline-block mb-8">
                 <img 
-                  src="https://picsum.photos/seed/doyle/200/200" 
+                  src="portrait.JPEG" 
                   alt={TUTOR_NAME} 
                   className="w-48 h-48 rounded-2xl object-cover mx-auto border-4 border-brand-primary/30 shadow-2xl transform hover:scale-105 transition-all duration-500 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" 
                   style={{animationDelay:'0.1s'}}
@@ -113,9 +116,11 @@ export const HomePage: React.FC = () => {
         </div>
       </AnimatedSection>
       
-      {/* Services Overview - Standardized white background with subtle border */}
+      {/* Services Overview - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
-        <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
+        <div className="bg-gradient-to-bl from-secondary-50/40 via-surface-elevated/90 to-accent-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
+          <div className="absolute inset-0 bg-pattern-grid opacity-15" />
+          <div className="absolute inset-0 bg-gradient-to-l from-transparent via-secondary-100/20 to-transparent" />
           <Section 
             title="Our Tutoring Services" 
             subtitle="Specialized support for UK and USA curricula." 
@@ -125,14 +130,14 @@ export const HomePage: React.FC = () => {
               {/* Left Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(servicesCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll services left"
               >
                 <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
               </button>
 
               {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={servicesCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
@@ -143,7 +148,7 @@ export const HomePage: React.FC = () => {
                     className="snap-center flex-shrink-0 w-[85%] sm:w-[45%] md:w-[40%] lg:w-[30%] transition-shadow duration-300 ease-in-out"
                     style={{ animationDelay: `${index * 100}ms` }}
                   >
-                    <div className="bg-white rounded-xl border border-neutral-border hover:border-brand-primary/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden">
+                    <div className="card-elevated rounded-xl hover:border-primary-500/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden">
                       {level.imageUrl && (
                         <div className="h-48 overflow-hidden rounded-t-xl">
                           <img 
@@ -179,12 +184,12 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
 
               {/* Right Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(servicesCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll services right"
               >
                 <ChevronRightIcon className="w-6 h-6 text-text-primary" />
@@ -203,22 +208,24 @@ export const HomePage: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* Store Preview / Learning Resources Preview - Standardized white background */}
+      {/* Store Preview / Learning Resources Preview - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
-        <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16">
+        <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
+          <div className="absolute inset-0 bg-pattern-dots opacity-12" />
+          <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
           <Section title="Digital Learning Materials" subtitle="High-quality resources to boost your studies." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
             <div className="relative group">
               {/* Left Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(productsCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll products left"
               >
                 <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
               </button>
 
               {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={productsCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
@@ -234,12 +241,12 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
 
               {/* Right Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(productsCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll products right"
               >
                 <ChevronRightIcon className="w-6 h-6 text-text-primary" />
@@ -258,9 +265,11 @@ export const HomePage: React.FC = () => {
         </div>
       </AnimatedSection>
 
-      {/* Testimonials - Standardized white background */}
+      {/* Testimonials - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
-        <div className="bg-neutral-surface py-20 border-t border-neutral-border/30 transition-all duration-700 ease-in-out mt-12 sm:mt-16">
+        <div className="bg-gradient-to-tl from-secondary-50/35 via-surface-elevated/85 to-primary-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 relative">
+          <div className="absolute inset-0 bg-pattern-waves opacity-10" />
+          <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-secondary-100/25 to-transparent" />
           <Section 
             title="What Our Students Say" 
             subtitle="Success stories from learners like you." 
@@ -270,14 +279,14 @@ export const HomePage: React.FC = () => {
               {/* Left Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(testimonialsCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll testimonials left"
               >
                 <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
               </button>
 
                 {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={testimonialsCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
@@ -293,12 +302,12 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-neutral-surface to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
 
               {/* Right Scroll Button */}
               <button 
                 onClick={() => scrollCarousel(testimonialsCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-neutral-surface/70 hover:bg-neutral-surface border border-neutral-border rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 focus:outline-none"
+                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
                 aria-label="Scroll testimonials right"
               >
                 <ChevronRightIcon className="w-6 h-6 text-text-primary" />

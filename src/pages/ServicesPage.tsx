@@ -14,9 +14,10 @@ export const ServicesPage: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="bg-neutral-bg">
-      {/* Page Header */}
-      <header className="bg-gradient-to-b from-white to-neutral-bg py-16 sm:py-24 text-center">
+    <div className="bg-gradient-mesh min-h-screen">
+      <div className="absolute inset-0 bg-pattern-waves opacity-10" />
+              {/* Page Header */}
+        <header className="bg-gradient-hero py-16 sm:py-24 text-center relative z-10">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="flex items-center justify-center gap-3 text-4xl sm:text-5xl lg:text-6xl font-heading font-bold text-brand-primary tracking-tight">
             <PencilIcon className="w-10 h-10 sm:w-12 sm:h-12 text-brand-primary drop-shadow-md" />
@@ -28,14 +29,14 @@ export const ServicesPage: React.FC = () => {
         </div>
       </header>
 
-      {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
+              {/* Main Content */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 relative z-10">
         
         {/* How It Works & Exam Prep Sections */}
         <div className="max-w-4xl mx-auto space-y-20">
           <HowItWorksTimeline />
           
-          <div className="bg-white rounded-2xl border border-neutral-border p-8 shadow-lg">
+          <div className="card-elevated rounded-2xl p-8 shadow-lg">
             <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Exam Preparation</h2>
             <p className="text-text-secondary mb-4 leading-relaxed">
               Preparing for exams can be a particularly stressful experience as they require not just a high level of subject knowledge, but also practice of exam technique. Our tutors help to make preparing for exams a more enjoyable experience, which ultimately results in greater efficiency of revision and subsequently higher grades.
@@ -60,12 +61,12 @@ export const ServicesPage: React.FC = () => {
           subtitle={`Comprehensive online tutoring by ${TUTOR_NAME} across multiple curricula and levels.`}
           className="pt-20"
         >
-          <div className="bg-white rounded-2xl border border-neutral-border p-8 shadow-lg">
+          <div className="card-elevated rounded-2xl p-8 shadow-lg">
             <div className="grid lg:grid-cols-3 gap-8">
               {/* UK and UK/EU Column */}
               <div className="lg:col-span-2 space-y-8">
                 {courseSections.filter(section => section.region === 'UK' || section.region === 'UK/EU').map((section) => (
-                  <div key={section.region} className="bg-neutral-surface rounded-xl border border-neutral-border p-6 transition-shadow hover:shadow-md">
+                  <div key={section.region} className="card-floating rounded-xl p-6 transition-shadow hover:shadow-md">
                     <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
                       {section.region}
                     </h3>
@@ -95,7 +96,7 @@ export const ServicesPage: React.FC = () => {
               {/* USA/World Column */}
               <div className="lg:col-span-1">
                 {courseSections.filter(section => section.region === 'USA/World').map((section) => (
-                  <div key={section.region} className="bg-neutral-surface rounded-xl border border-neutral-border p-6 transition-shadow hover:shadow-md h-fit">
+                  <div key={section.region} className="card-floating rounded-xl p-6 transition-shadow hover:shadow-md h-fit">
                     <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
                       {section.region}
                     </h3>
@@ -147,7 +148,7 @@ export const ServicesPage: React.FC = () => {
           <div className="lg:col-span-2">
             <div className="sticky top-24">
               <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Tutoring Rates</h2>
-              <div className="bg-white border-2 border-brand-primary/20 rounded-2xl p-6 shadow-lg space-y-4">
+              <div className="card-elevated border-2 border-primary-500/20 rounded-2xl p-6 shadow-lg space-y-4">
                 {/* GBP Price */}
                 <div className="bg-gradient-to-br from-brand-primary to-brand-primary/80 text-white rounded-lg p-5 text-center shadow-md transform hover:scale-105 transition-transform duration-300">
                   <div className="text-4xl font-heading font-bold mb-1">£45</div>

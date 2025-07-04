@@ -18,18 +18,18 @@ export const testimonials = [
     quote: "Dr. Doyle's tutoring transformed my understanding of A-Level Physics. I went from a C to an A*!",
     name: "Sarah K.",
     location: "London, UK",
-    imageUrl: "https://picsum.photos/seed/sarah/150/150"
+    imageUrl: "student-1.jpeg"
   },
   {
     quote: "The AP Calculus sessions were incredibly helpful. Dr. Doyle explains complex topics very clearly.",
     name: "Mike P.",
     location: "California, USA",
-    imageUrl: "https://picsum.photos/seed/mike/150/150"
+    imageUrl: "student-2.jpg"
   },
   {
     quote: "I highly recommend Dr. Doyle for anyone struggling with Maths. Patient, knowledgeable, and effective.",
     name: "Emily R.",
     location: "Manchester, UK",
-    imageUrl: "https://picsum.photos/seed/emily/150/150"
+    imageUrl: "student-3.jpg"
   }
 ];
