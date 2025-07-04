@@ -90,27 +90,51 @@ export const HomePage: React.FC = () => {
         <div className="bg-gradient-to-br from-primary-50/30 via-surface-primary/80 to-secondary-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-pattern-waves opacity-10" />
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary-100/20 to-transparent" />
-          <Section title={`Meet ${TUTOR_NAME}`} subtitle="Your Dedicated Maths, Physics & Coding Expert" className="relative z-10" titleClassName="text-3xl sm:text-4xl">
-            <div className="max-w-4xl mx-auto text-center card-elevated p-6 sm:p-8 rounded-xl hover:shadow-xl transition-shadow duration-300">
-              <div className="relative inline-block mb-8">
-                <img 
-                  src="portrait.JPEG" 
-                  alt={TUTOR_NAME} 
-                  className="w-48 h-48 rounded-2xl object-cover mx-auto border-4 border-brand-primary/30 shadow-2xl transform hover:scale-105 transition-all duration-500 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" 
-                  style={{animationDelay:'0.1s'}}
-                />
-                <div className="absolute -inset-4 bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 rounded-3xl blur-xl opacity-50"></div>
+          <Section title="" subtitle="" className="relative z-10">
+            <div className="max-w-6xl mx-auto card-elevated p-3 sm:p-6 lg:p-8 rounded-xl hover:shadow-xl transition-shadow duration-300">
+              {/* Image and title/text aligned */}
+              <div className="flex flex-row items-start gap-2 sm:gap-6 lg:gap-12 min-w-0">
+                {/* Image on the left */}
+                <div className="flex-shrink-0 w-auto">
+                  <div className="relative">
+                    <img 
+                      src="portrait.JPEG" 
+                      alt={TUTOR_NAME} 
+                      className="w-24 h-24 sm:w-40 sm:h-40 lg:w-48 lg:h-48 rounded-2xl object-cover border-4 border-brand-primary/30 shadow-2xl transform hover:scale-105 transition-all duration-500 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" 
+                      style={{animationDelay:'0.1s'}}
+                    />
+                    <div className="absolute -inset-4 bg-gradient-to-r from-brand-primary/20 to-brand-secondary/20 rounded-3xl blur-xl opacity-50"></div>
+                  </div>
+                </div>
+                
+                {/* Title, subtitle, paragraph text and button on the right */}
+                <div className="flex-1 min-w-0 text-left">
+                  {/* Title and subtitle */}
+                  <div className="mb-3 sm:mb-6 opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.15s'}}>
+                    <h2 className="text-xl sm:text-3xl lg:text-4xl font-heading font-bold text-text-primary mb-1 sm:mb-2 leading-tight">
+                      Meet {TUTOR_NAME}
+                    </h2>
+                    <p className="text-sm sm:text-lg text-text-secondary opacity-90 leading-snug">
+                      Your Dedicated Maths, Physics & Coding Expert
+                    </p>
+                  </div>
+                  
+                  <p className="text-xs sm:text-base lg:text-lg text-text-secondary mb-4 sm:mb-8 leading-relaxed opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.25s'}}>
+                    With a PhD and years of experience teaching students across the UK and USA, {TUTOR_NAME} offers a unique blend of deep subject knowledge and tailored teaching strategies to help you succeed in Maths, Physics, and Computer Science.
+                  </p>
+                  
+                  <Button 
+                    variant="secondary" 
+                    size="sm"
+                    onClick={() => navigate('/about')}
+                    className="text-xs sm:text-sm transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.4s'}}
+                  >
+                    <span className="hidden sm:inline">Learn More About Dr. Doyle</span>
+                    <span className="sm:hidden">Learn More</span>
+                    <ChevronRightIcon className="w-3 h-3 sm:w-4 sm:h-4" />
+                  </Button>
+                </div>
               </div>
-              <p className="text-base sm:text-lg text-text-secondary mb-8 leading-relaxed max-w-3xl mx-auto opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.25s'}}>
-                With a PhD and years of experience teaching students across the UK and USA, {TUTOR_NAME} offers a unique blend of deep subject knowledge and tailored teaching strategies to help you succeed in Maths, Physics, and Computer Science.
-              </p>
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate('/about')}
-                className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.4s'}}
-              >
-                Learn More About Dr. Doyle <ChevronRightIcon />
-              </Button>
             </div>
           </Section>
         </div>

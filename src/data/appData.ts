@@ -1,7 +1,7 @@
 import { NavLinkItem } from '../types';
 import { ShoppingCartIcon, AcademicCapIcon, CalculatorIcon, BeakerIcon, CodeBracketIcon } from '../assets/icons'; // Ensure correct path to icons
 
-export const TUTOR_NAME = "Dr. Matthew Doyle";
+export const TUTOR_NAME = "Dr. Matt Doyle";
 
 export const navLinks: NavLinkItem[] = [
   { path: '/', label: 'Home' },
