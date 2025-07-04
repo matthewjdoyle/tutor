@@ -3,7 +3,7 @@ import { SpinnerIcon } from './SpinnerIcon';
 
 // Define base props shared by Button and Anchor styled as Button
 type ButtonBaseProps = {
-  variant?: 'primary' | 'secondary' | 'outline' | 'danger';
+  variant?: 'primary' | 'secondary' | 'outline' | 'danger' | 'accent';
   size?: 'sm' | 'md' | 'lg';
   children: React.ReactNode;
   className?: string;
@@ -34,19 +34,20 @@ export const Button: React.FC<ButtonProps> = (props) => {
     ...rest // Contains href OR (type, disabled), plus other native attrs
   } = props;
 
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-neutral-bg transition-all duration-150 ease-in-out hover:-translate-y-px active:translate-y-0';
+  const baseStyles = 'hero-button inline-flex items-center justify-center font-semibold rounded-xl focus:outline-none focus:ring-2 focus:ring-offset-2 transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105 active:scale-98';
   
   const variantStylesDict = {
-    primary: 'bg-brand-primary hover:bg-opacity-85 text-text-on-brand focus:ring-brand-primary',
-    secondary: 'bg-brand-secondary hover:bg-opacity-85 text-text-on-brand focus:ring-brand-secondary',
-    outline: 'border-2 border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-text-on-brand focus:ring-brand-primary',
-    danger: 'bg-red-600 hover:bg-red-700 text-white focus:ring-red-500',
+    primary: 'themed-button-primary',
+    secondary: 'themed-button-secondary', 
+    accent: 'themed-button-accent',
+    outline: 'themed-button-accent', // Using accent for outline variant
+    danger: 'border-red-500 text-red-600 bg-transparent hover:bg-red-500 hover:text-white focus:ring-red-500',
   };
 
   const sizeStylesDict = {
-    sm: 'px-3 py-1.5 text-sm',
-    md: 'px-5 py-2.5 text-base',
-    lg: 'px-7 py-3 text-lg',
+    sm: 'px-4 py-2 text-sm',
+    md: 'px-6 py-3 text-base', 
+    lg: 'px-8 py-4 text-lg',
   };
   
   const content = isLoading ? <SpinnerIcon /> : children;

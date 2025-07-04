@@ -67,16 +67,75 @@ export const HomePage: React.FC = () => {
               Expert online tutoring by {TUTOR_NAME} for UK & USA education systems in Maths, Physics, and Computer Science. Achieve your academic goals with personalized guidance.
             </p> */}
             <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-              <Button variant="primary" size="lg" onClick={() => navigate('/services')} className="shadow-lg hover:shadow-xl w-full sm:w-auto">
+              {/* Primary Theme Button */}
+              <button
+                onClick={() => navigate('/services')}
+                className="hero-button hero-button-primary w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+                style={{
+                  borderColor: 'var(--color-primary-500)',
+                  color: 'var(--color-primary-600)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-primary-500)';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.borderColor = 'var(--color-primary-600)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--color-primary-600)';
+                  e.currentTarget.style.borderColor = 'var(--color-primary-500)';
+                }}
+              >
                 Explore Services
-              </Button>
-              <Button variant="outline" size="lg" onClick={() => navigate('/learning-resources')} className="w-full sm:w-auto">
+              </button>
+
+              {/* Secondary Theme Button */}
+              <button
+                onClick={() => navigate('/learning-resources')}
+                className="hero-button hero-button-secondary w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+                style={{
+                  borderColor: 'var(--color-secondary-500)',
+                  color: 'var(--color-secondary-600)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-secondary-500)';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.borderColor = 'var(--color-secondary-600)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--color-secondary-600)';
+                  e.currentTarget.style.borderColor = 'var(--color-secondary-500)';
+                }}
+              >
                 Free Resources
-              </Button>
-              <Button variant="secondary" size="lg" onClick={() => navigate('/study-tips')} className="flex items-center gap-2 w-full sm:w-auto">
+              </button>
+
+              {/* Accent Theme Button */}
+              <button
+                onClick={() => navigate('/study-tips')}
+                className="hero-button hero-button-accent w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
+                style={{
+                  borderColor: 'var(--color-accent-500)',
+                  color: 'var(--color-accent-600)',
+                  backgroundColor: 'transparent'
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = 'var(--color-accent-500)';
+                  e.currentTarget.style.color = 'white';
+                  e.currentTarget.style.borderColor = 'var(--color-accent-600)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = 'transparent';
+                  e.currentTarget.style.color = 'var(--color-accent-600)';
+                  e.currentTarget.style.borderColor = 'var(--color-accent-500)';
+                }}
+              >
                 <RobotIcon className="w-5 h-5" />
                 AI Study Tools
-              </Button>
+              </button>
             </div>
           </div>
         </div>

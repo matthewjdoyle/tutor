@@ -295,7 +295,7 @@ export const StudyTipsPage: React.FC = () => {
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
                         <Input placeholder="Subject (e.g., Physics)" value={exam.subject} onChange={(e) => handleExamChange(index, 'subject', e.target.value)} required className="md:col-span-1" />
                         <Input type="date" value={exam.date} onChange={(e) => handleExamChange(index, 'date', e.target.value)} required className="md:col-span-1" />
-                        <button type="button" onClick={() => handleRemoveExam(index)} className="text-red-500 hover:text-red-700 font-semibold transition-colors justify-self-center md:justify-self-end">Remove Exam</button>
+                        <button type="button" onClick={() => handleRemoveExam(index)} className="hero-button px-3 py-1 rounded-lg font-medium text-sm border-2 border-red-500 text-red-600 bg-transparent hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-105 justify-self-center md:justify-self-end">Remove Exam</button>
                       </div>
                       <div className="mt-4 pl-2">
                         <h4 className="text-sm font-semibold text-text-secondary mb-2">Specific tasks for {exam.subject || 'this subject'}:</h4>
@@ -307,14 +307,14 @@ export const StudyTipsPage: React.FC = () => {
                               placeholder="e.g., Complete past paper 2021" 
                               className="flex-grow"
                             />
-                            <button type="button" onClick={() => handleRemoveTask(index, taskIndex)} className="text-red-500 hover:text-red-700 text-sm p-1">✕</button>
+                            <button type="button" onClick={() => handleRemoveTask(index, taskIndex)} className="hero-button px-2 py-1 rounded-md text-sm border border-red-500 text-red-600 bg-transparent hover:bg-red-500 hover:text-white transition-all duration-300 transform hover:scale-105">✕</button>
                           </div>
                         ))}
-                        <button type="button" onClick={() => handleAddTask(index)} className="text-sm text-brand-primary hover:text-brand-primary-dark transition-colors">+ Add task</button>
+                                                  <button type="button" onClick={() => handleAddTask(index)} className="hero-button themed-button-primary px-3 py-1 rounded-lg text-sm border-2 transition-all duration-300 transform hover:scale-105">+ Add task</button>
                       </div>
                     </div>
                   ))}
-                  <button type="button" onClick={handleAddExam} className="mt-2 text-brand-primary font-semibold hover:text-brand-primary-dark transition-colors">+ Add Another Exam</button>
+                                      <button type="button" onClick={handleAddExam} className="hero-button themed-button-secondary mt-2 px-4 py-2 rounded-lg font-medium border-2 transition-all duration-300 transform hover:scale-105">+ Add Another Exam</button>
                 </div>
   
                 <div>

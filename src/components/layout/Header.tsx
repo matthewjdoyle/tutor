@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link, NavLink as RouterNavLink } from 'react-router-dom';
 import { NavLinkItem } from '../../types';
 import { useCart } from '../../contexts/CartContext';
 import { SiteLogoIcon, ShoppingCartIcon } from '../../assets/icons';
-import { ThemeSwitcher } from '../common/ThemeSwitcher';
 
 interface HeaderProps {
   tutorName: string;
@@ -12,8 +11,19 @@ interface HeaderProps {
 }
 export const Header: React.FC<HeaderProps> = ({ tutorName, navLinks, onNavLinkClick }) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { getItemCount } = useCart();
   const cartItemCount = getItemCount();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      setIsScrolled(scrollPosition > 0);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   const handleLinkClick = (path: string) => {
     if (onNavLinkClick) onNavLinkClick(path);
@@ -28,7 +38,6 @@ export const Header: React.FC<HeaderProps> = ({ tutorName, navLinks, onNavLinkCl
       className="sticky top-0 z-50 shadow-lg backdrop-blur-md"
       style={{
         background: 'linear-gradient(to right, var(--color-primary-300), var(--color-secondary-300), var(--color-accent-300))',
-        borderBottom: '1px solid var(--color-primary-400)',
         opacity: 0.95
       }}
     >
@@ -53,7 +62,9 @@ export const Header: React.FC<HeaderProps> = ({ tutorName, navLinks, onNavLinkCl
             onClick={() => handleLinkClick('/')}
           >
             <SiteLogoIcon className="h-10 w-10 sm:h-12 sm:w-12 drop-shadow-sm" />
-            <h1 className="ml-3 text-xl sm:text-2xl font-bold font-heading tracking-tight text-white group-hover:opacity-90 transition-opacity whitespace-nowrap drop-shadow-sm">
+            <h1 className={`ml-3 text-xl sm:text-2xl font-bold font-heading tracking-tight text-white group-hover:opacity-90 whitespace-nowrap drop-shadow-sm transition-all duration-300 ease-in-out ${
+              isScrolled ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-4 pointer-events-none'
+            }`}>
               {tutorName}
             </h1>
           </Link>
@@ -82,7 +93,6 @@ export const Header: React.FC<HeaderProps> = ({ tutorName, navLinks, onNavLinkCl
                 </span>
               </Link>
             )}
-            <ThemeSwitcher />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
               className="inline-flex items-center justify-center p-2 rounded-lg text-white hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white/50 transition-all duration-200 backdrop-blur-sm border border-transparent"

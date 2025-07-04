@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CogIcon } from '../../assets/icons';
+import { PaletteIcon } from '../../assets/icons';
 
 type Theme = 'ocean' | 'sunset' | 'forest' | 'midnight' | 'cherry' | 'autumn' | 'arctic' | 'cosmic' | 'coral' | 'lavender' | 'earth' | 'neon' | 'plasma' | 'viridis' | 'inferno' | 'magma' | 'cividis' | 'turbo' | 'coolwarm' | 'spectral';
 
@@ -159,14 +159,37 @@ const themes: ThemeOption[] = [
 export const ThemeSwitcher: React.FC = () => {
   const [currentTheme, setCurrentTheme] = useState<Theme>('ocean');
   const [isOpen, setIsOpen] = useState(false);
+  const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
-    // Load saved theme from localStorage
-    const savedTheme = localStorage.getItem('theme') as Theme;
-    if (savedTheme && themes.find(t => t.id === savedTheme)) {
-      setCurrentTheme(savedTheme);
-      applyTheme(savedTheme);
-    }
+    // Always choose a random theme on page load/refresh
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+    setCurrentTheme(randomTheme.id);
+    applyTheme(randomTheme.id);
+  }, []);
+
+  useEffect(() => {
+    const checkScrollPosition = () => {
+      const scrollTop = window.scrollY;
+      const windowHeight = window.innerHeight;
+      const documentHeight = document.documentElement.scrollHeight;
+      
+      // Consider "at bottom" when within 100px of the bottom
+      const threshold = 100;
+      const atBottom = scrollTop + windowHeight >= documentHeight - threshold;
+      
+      setIsAtBottom(atBottom);
+    };
+
+    // Check initial position
+    checkScrollPosition();
+
+    // Add scroll listener
+    window.addEventListener('scroll', checkScrollPosition, { passive: true });
+
+    return () => {
+      window.removeEventListener('scroll', checkScrollPosition);
+    };
   }, []);
 
   const applyTheme = (theme: Theme) => {
@@ -189,25 +212,13 @@ export const ThemeSwitcher: React.FC = () => {
   const scientificThemes = themes.filter(t => t.category === 'Scientific');
 
   return (
-    <div className="relative">
+    <div className={`fixed bottom-6 right-6 z-50 transition-all duration-300 ${isAtBottom ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'}`}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-surface-primary border border-border-primary hover:bg-surface-secondary transition-all duration-200 shadow-sm hover:shadow-md"
+        className="flex items-center justify-center w-12 h-12 rounded-full bg-surface-elevated border border-border-primary hover:bg-surface-secondary transition-all duration-200 shadow-lg hover:shadow-xl"
         aria-label="Change theme"
       >
-        <CogIcon className="w-4 h-4 text-text-secondary" />
-        <span className="text-sm font-medium text-text-secondary hidden sm:inline">
-          {currentThemeOption.name}
-        </span>
-        <div className="flex gap-1">
-          {currentThemeOption.colors.map((color, index) => (
-            <div
-              key={index}
-              className="w-3 h-3 rounded-full border border-border-muted"
-              style={{ backgroundColor: color }}
-            />
-          ))}
-        </div>
+        <PaletteIcon className="w-6 h-6 text-text-secondary" />
       </button>
 
       {isOpen && (
@@ -219,7 +230,7 @@ export const ThemeSwitcher: React.FC = () => {
           />
           
           {/* Theme Menu */}
-          <div className="absolute top-full right-0 mt-2 w-80 bg-surface-elevated border border-border-primary rounded-xl shadow-lg z-50 overflow-hidden max-h-96 overflow-y-auto">
+          <div className="absolute bottom-full right-0 mb-2 w-80 bg-surface-elevated border border-border-primary rounded-xl shadow-lg z-50 overflow-hidden max-h-96 overflow-y-auto">
             <div className="p-3 border-b border-border-muted sticky top-0 bg-surface-elevated">
               <h3 className="text-sm font-semibold text-text-primary">Choose Theme</h3>
               <p className="text-xs text-text-muted">Switch between color schemes</p>
