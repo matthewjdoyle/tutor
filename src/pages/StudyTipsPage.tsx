@@ -11,7 +11,7 @@ import { Button } from '../components/common/Button';
 import { Input } from '../components/common/Input';
 import { LightBulbIcon, RobotIcon } from '../assets/icons';
 import { ThinkingNeuralAnimation } from '../components/common/ThinkingNeuralAnimation';
-import { generateMotivationalQuote, solvePhysicsProblem, generateRevisionTimetable } from '../services/geminiService';
+import { solvePhysicsProblem, generateRevisionTimetable } from '../services/geminiService';
 import { InteractiveTimeSelector } from '../components/common/InteractiveTimeSelector';
 import { TimetableGrid } from '../components/common/TimetableGrid';
 
@@ -76,7 +76,7 @@ const defaultExams: Exam[] = [
 ];
 
 export const StudyTipsPage: React.FC = () => {
-  const [selectedOption, setSelectedOption] = useState<'quote' | 'physics' | 'timetable' | null>(null);
+  const [selectedOption, setSelectedOption] = useState<'physics' | 'timetable' | null>(null);
   
   // State for Physics Solver
   const [physicsProblem, setPhysicsProblem] = useState<string>('');
@@ -94,19 +94,7 @@ export const StudyTipsPage: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
 
-  const handleGenerateQuote = async () => {
-    setIsLoading(true);
-    setError('');
-    setResult('');
-    try {
-      const quote = await withMinimumDelay(generateMotivationalQuote(), 3000);
-      setResult(quote);
-    } catch (e: any) {
-      setError(e.message || 'An unexpected error occurred.');
-    } finally {
-      setIsLoading(false);
-    }
-  };
+
 
   const handleSolvePhysics = async () => {
     if (!physicsProblem.trim()) {
@@ -203,17 +191,7 @@ export const StudyTipsPage: React.FC = () => {
         </div>
         
         {!selectedOption && (
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="bg-neutral-surface p-6 rounded-xl border border-neutral-border hover:border-brand-primary/50 transition-colors cursor-pointer"
-                 onClick={() => setSelectedOption('quote')}>
-              <div className="text-center">
-                <div className="text-4xl mb-4">💪</div>
-                <h3 className="text-xl font-heading font-semibold text-text-primary mb-2">Motivational Quote</h3>
-                <p className="text-text-secondary mb-4">Get a boost of motivation.</p>
-                <Button variant="primary" className="w-full">Generate</Button>
-              </div>
-            </div>
-
+          <div className="grid md:grid-cols-2 gap-6 max-w-2xl mx-auto">
             <div className="bg-neutral-surface p-6 rounded-xl border border-neutral-border hover:border-brand-secondary/50 transition-colors cursor-pointer"
                  onClick={() => setSelectedOption('physics')}>
               <div className="text-center">
@@ -236,23 +214,7 @@ export const StudyTipsPage: React.FC = () => {
           </div>
         )}
 
-        {selectedOption === 'quote' && (
-          <div className="bg-neutral-surface p-8 rounded-xl border border-neutral-border">
-            <div className="text-center">
-              <h3 className="text-2xl font-heading font-semibold text-brand-primary mb-4">💪 Motivational Quote Generator</h3>
-              <p className="text-text-secondary mb-6">Need some motivation? Get an inspiring quote!</p>
-              {isLoading ? <ThinkingNeuralAnimation /> : (
-                <div className="space-y-4">
-                  <Button onClick={handleGenerateQuote} variant="primary" size="lg" className="w-full">
-                    <LightBulbIcon className="w-5 h-5 mr-2" />
-                    Generate Quote
-                  </Button>
-                  <Button onClick={resetToOptions} variant="outline" className="w-full">← Back</Button>
-                </div>
-              )}
-            </div>
-          </div>
-        )}
+
 
         {selectedOption === 'physics' && (
           <div className="bg-neutral-surface p-8 rounded-xl border border-neutral-border">
@@ -347,35 +309,29 @@ export const StudyTipsPage: React.FC = () => {
           <div className="mt-8 p-6 bg-gradient-to-r from-brand-primary/10 to-brand-secondary/10 border border-brand-primary/30 rounded-lg animate-fade-in-up prose prose-sm sm:prose lg:prose-lg xl:prose-xl max-w-none">
             <h4 className="text-lg font-heading font-semibold text-brand-primary mb-4 flex items-center">
               <LightBulbIcon className="w-6 h-6 mr-2"/>
-              {selectedOption === 'quote' ? 'Your Motivational Quote:' : 'Solution:'}
+              Solution:
             </h4>
             <div className="text-text-primary leading-relaxed">
-              {selectedOption === 'quote' ? (
-                <blockquote className="text-lg italic text-center border-l-4 border-brand-primary pl-4">
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>{result}</ReactMarkdown>
-                </blockquote>
-              ) : (
-                <div className="bg-neutral-bg p-4 rounded border text-left">
-                  <ReactMarkdown 
-                    remarkPlugins={[remarkGfm, remarkMath]}
-                    rehypePlugins={[rehypeKatex]}
-                    components={{
-                      h1: ({node, ...props}) => <h1 className="text-2xl font-heading mt-4 mb-2" {...props} />,
-                      h2: ({node, ...props}) => <h2 className="text-xl font-heading mt-3 mb-1" {...props} />,
-                      h3: ({node, ...props}) => <h3 className="text-lg font-heading mt-2 mb-1" {...props} />,
-                      pre: ({node, ...props}: PreComponentProps) => <pre className="bg-neutral-muted-bg p-3 rounded-md overflow-x-auto my-2" {...props} />,
-                      code: ({node, inline, children, ...props}: CodeComponentProps) => 
-                        inline ? (
-                          <code className="bg-neutral-muted-bg px-1 rounded-sm text-sm" {...props}>{children}</code>
-                        ) : (
-                          <code className="font-mono text-sm" {...props}>{children}</code>
-                        )
-                    }} 
-                  >
-                    {result}
-                  </ReactMarkdown>
-                </div>
-              )}
+              <div className="bg-neutral-bg p-4 rounded border text-left">
+                <ReactMarkdown 
+                  remarkPlugins={[remarkGfm, remarkMath]}
+                  rehypePlugins={[rehypeKatex]}
+                  components={{
+                    h1: ({node, ...props}) => <h1 className="text-2xl font-heading mt-4 mb-2" {...props} />,
+                    h2: ({node, ...props}) => <h2 className="text-xl font-heading mt-3 mb-1" {...props} />,
+                    h3: ({node, ...props}) => <h3 className="text-lg font-heading mt-2 mb-1" {...props} />,
+                    pre: ({node, ...props}: PreComponentProps) => <pre className="bg-neutral-muted-bg p-3 rounded-md overflow-x-auto my-2" {...props} />,
+                    code: ({node, inline, children, ...props}: CodeComponentProps) => 
+                      inline ? (
+                        <code className="bg-neutral-muted-bg px-1 rounded-sm text-sm" {...props}>{children}</code>
+                      ) : (
+                        <code className="font-mono text-sm" {...props}>{children}</code>
+                      )
+                  }} 
+                >
+                  {result}
+                </ReactMarkdown>
+              </div>
             </div>
             <div className="mt-4 text-center">
               <Button onClick={resetToOptions} variant="outline" size="sm">Try Another Option</Button>

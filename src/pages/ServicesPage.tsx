@@ -62,66 +62,45 @@ export const ServicesPage: React.FC = () => {
           className="pt-20"
         >
           <div className="card-elevated rounded-2xl p-8 shadow-lg">
-            <div className="grid lg:grid-cols-3 gap-8">
-              {/* UK and UK/EU Column */}
-              <div className="lg:col-span-2 space-y-8">
-                {courseSections.filter(section => section.region === 'UK' || section.region === 'UK/EU').map((section) => (
-                  <div key={section.region} className="card-floating rounded-xl p-6 transition-shadow hover:shadow-md">
-                    <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
-                      {section.region}
-                    </h3>
-                    <div className="space-y-5">
-                      {section.levels.map((level) => (
-                        <div key={level.id} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
-                          <h4 className="text-lg font-semibold text-text-primary mb-2">
-                            {level.name}
-                          </h4>
-                          {level.subjects.length > 0 && (
-                            <div className="text-text-secondary mb-2">
-                              {level.subjects.join(', ')}
-                            </div>
-                          )}
-                          {level.examBoards && (
-                            <div className="text-sm text-text-muted italic">
-                              Exam boards: {level.examBoards.join(', ')}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              {/* USA/World Column */}
-              <div className="lg:col-span-1">
-                {courseSections.filter(section => section.region === 'USA/World').map((section) => (
-                  <div key={section.region} className="card-floating rounded-xl p-6 transition-shadow hover:shadow-md h-fit">
-                    <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
-                      {section.region}
-                    </h3>
-                    <div className="space-y-5">
-                      {section.levels.map((level) => (
-                        <div key={level.id} className="border-b border-gray-100 pb-4 last:border-b-0 last:pb-0">
-                          <h4 className="text-lg font-semibold text-text-primary mb-2">
-                            {level.name}
-                          </h4>
-                          {level.subjects.length > 0 && (
-                            <div className="text-text-secondary mb-2">
-                              {level.subjects.join(', ')}
-                            </div>
-                          )}
-                          {level.examBoards && (
-                            <div className="text-sm text-text-muted italic">
-                              Exam boards: {level.examBoards.join(', ')}
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                ))}
-              </div>
+            <div className="space-y-8">
+              {courseSections.map((section) => (
+                <div key={section.region} className="card-elevated rounded-xl p-6">
+                  <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
+                    {section.region}
+                  </h3>
+                                     <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                     {section.levels.map((level) => (
+                       <div key={level.id} className="bg-surface-primary border border-border-muted rounded-lg p-4">
+                         <h4 className="text-lg font-semibold text-text-primary mb-2">
+                           {level.name}
+                         </h4>
+                         {level.subjects.length > 0 && (
+                           <div className="text-sm text-text-secondary mb-2">
+                             <span className="font-medium">Subjects:</span> {level.subjects.join(', ')}
+                           </div>
+                         )}
+                         {level.examBoards && (
+                           <div className="text-xs text-text-muted italic mb-2">
+                             Exam boards: {level.examBoards.join(', ')}
+                           </div>
+                         )}
+                         {level.subCourses && (
+                           <div className="mt-3 pt-3 border-t border-border-muted">
+                             <div className="text-xs font-medium text-text-secondary mb-2">Available courses:</div>
+                             <ul className="space-y-1">
+                               {level.subCourses.map((subCourse) => (
+                                 <li key={subCourse.id} className="text-xs text-text-secondary">
+                                   • {subCourse.name}
+                                 </li>
+                               ))}
+                             </ul>
+                           </div>
+                         )}
+                       </div>
+                     ))}
+                   </div>
+                </div>
+              ))}
             </div>
             
             {/* Custom Course Enquiry */}

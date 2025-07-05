@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Section } from '../components/common/Section';
 import { Button } from '../components/common/Button';
@@ -26,6 +26,74 @@ export const HomePage: React.FC = () => {
   const servicesCarouselRef = useRef<HTMLDivElement>(null);
   const productsCarouselRef = useRef<HTMLDivElement>(null);
   const testimonialsCarouselRef = useRef<HTMLDivElement>(null);
+
+  // Scroll position states
+  const [servicesScrollState, setServicesScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+  const [productsScrollState, setProductsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+  const [testimonialsScrollState, setTestimonialsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+
+  const checkScrollPosition = (element: HTMLDivElement) => {
+    const { scrollLeft, scrollWidth, clientWidth } = element;
+    return {
+      canScrollLeft: scrollLeft > 0,
+      canScrollRight: scrollLeft < scrollWidth - clientWidth - 1 // -1 for rounding
+    };
+  };
+
+  const updateScrollState = (ref: React.RefObject<HTMLDivElement>, setState: React.Dispatch<React.SetStateAction<{ canScrollLeft: boolean; canScrollRight: boolean }>>) => {
+    if (ref.current) {
+      setState(checkScrollPosition(ref.current));
+    }
+  };
+
+  useEffect(() => {
+    const servicesElement = servicesCarouselRef.current;
+    const productsElement = productsCarouselRef.current;
+    const testimonialsElement = testimonialsCarouselRef.current;
+
+    const handleServicesScroll = () => updateScrollState(servicesCarouselRef, setServicesScrollState);
+    const handleProductsScroll = () => updateScrollState(productsCarouselRef, setProductsScrollState);
+    const handleTestimonialsScroll = () => updateScrollState(testimonialsCarouselRef, setTestimonialsScrollState);
+
+    // Initial check with slight delay to ensure content is rendered
+    const initialCheck = () => {
+      setTimeout(() => {
+        if (servicesElement) handleServicesScroll();
+        if (productsElement) handleProductsScroll();
+        if (testimonialsElement) handleTestimonialsScroll();
+      }, 100);
+    };
+
+    if (servicesElement) {
+      servicesElement.addEventListener('scroll', handleServicesScroll);
+      initialCheck(); // Initial check with delay
+    }
+    if (productsElement) {
+      productsElement.addEventListener('scroll', handleProductsScroll);
+      initialCheck(); // Initial check with delay
+    }
+    if (testimonialsElement) {
+      testimonialsElement.addEventListener('scroll', handleTestimonialsScroll);
+      initialCheck(); // Initial check with delay
+    }
+
+    // Also check on window resize
+    const handleResize = () => {
+      if (servicesElement) handleServicesScroll();
+      if (productsElement) handleProductsScroll();
+      if (testimonialsElement) handleTestimonialsScroll();
+    };
+
+    window.addEventListener('resize', handleResize);
+    initialCheck(); // Run initial check
+
+    return () => {
+      if (servicesElement) servicesElement.removeEventListener('scroll', handleServicesScroll);
+      if (productsElement) productsElement.removeEventListener('scroll', handleProductsScroll);
+      if (testimonialsElement) testimonialsElement.removeEventListener('scroll', handleTestimonialsScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   const scrollCarousel = (ref: React.RefObject<HTMLDivElement | null>, direction: 'left' | 'right') => {
     if (ref.current) {
@@ -65,11 +133,11 @@ export const HomePage: React.FC = () => {
             {/* <p className="mt-6 max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-text-secondary opacity-90 leading-relaxed">
               Expert online tutoring by {TUTOR_NAME} for UK & USA education systems in Maths, Physics, and Computer Science. Achieve your academic goals with personalized guidance.
             </p> */}
-            <div className="mt-10 flex flex-col sm:flex-row justify-center items-center gap-4">
-              {/* Primary Theme Button */}
+            <div className="mt-10 flex flex-col items-center gap-4">
+              {/* Primary Theme Button - Top of triangle (most prominent) */}
               <button
                 onClick={() => navigate('/services')}
-                className="hero-button hero-button-primary w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+                className="hero-button hero-button-primary w-full sm:w-auto px-10 py-5 rounded-xl font-semibold text-xl transition-all duration-300 border-2 shadow-xl hover:shadow-2xl transform hover:scale-105"
                 style={{
                   borderColor: 'var(--color-primary-500)',
                   color: 'var(--color-primary-600)',
@@ -89,52 +157,55 @@ export const HomePage: React.FC = () => {
                 Explore Services
               </button>
 
-              {/* Secondary Theme Button */}
-              <button
-                onClick={() => navigate('/learning-resources')}
-                className="hero-button hero-button-secondary w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105"
-                style={{
-                  borderColor: 'var(--color-secondary-500)',
-                  color: 'var(--color-secondary-600)',
-                  backgroundColor: 'transparent'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-secondary-500)';
-                  e.currentTarget.style.color = 'white';
-                  e.currentTarget.style.borderColor = 'var(--color-secondary-600)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = 'var(--color-secondary-600)';
-                  e.currentTarget.style.borderColor = 'var(--color-secondary-500)';
-                }}
-              >
-                Free Resources
-              </button>
+              {/* Bottom row of triangle */}
+              <div className="flex flex-col sm:flex-row justify-center items-center gap-4">
+                {/* Secondary Theme Button */}
+                <button
+                  onClick={() => navigate('/learning-resources')}
+                  className="hero-button hero-button-secondary w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105"
+                  style={{
+                    borderColor: 'var(--color-secondary-500)',
+                    color: 'var(--color-secondary-600)',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-secondary-500)';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.borderColor = 'var(--color-secondary-600)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--color-secondary-600)';
+                    e.currentTarget.style.borderColor = 'var(--color-secondary-500)';
+                  }}
+                >
+                  Free Resources
+                </button>
 
-              {/* Accent Theme Button */}
-              <button
-                onClick={() => navigate('/study-tips')}
-                className="hero-button hero-button-accent w-full sm:w-auto px-8 py-4 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
-                style={{
-                  borderColor: 'var(--color-accent-500)',
-                  color: 'var(--color-accent-600)',
-                  backgroundColor: 'transparent'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.backgroundColor = 'var(--color-accent-500)';
-                  e.currentTarget.style.color = 'white';
-                  e.currentTarget.style.borderColor = 'var(--color-accent-600)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.backgroundColor = 'transparent';
-                  e.currentTarget.style.color = 'var(--color-accent-600)';
-                  e.currentTarget.style.borderColor = 'var(--color-accent-500)';
-                }}
-              >
-                <RobotIcon className="w-5 h-5" />
-                AI Study Tools
-              </button>
+                {/* Accent Theme Button */}
+                <button
+                  onClick={() => navigate('/study-tips')}
+                  className="hero-button hero-button-accent w-full sm:w-auto px-6 py-3 rounded-xl font-semibold text-lg transition-all duration-300 border-2 shadow-lg hover:shadow-xl transform hover:scale-105 flex items-center justify-center gap-2"
+                  style={{
+                    borderColor: 'var(--color-accent-500)',
+                    color: 'var(--color-accent-600)',
+                    backgroundColor: 'transparent'
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = 'var(--color-accent-500)';
+                    e.currentTarget.style.color = 'white';
+                    e.currentTarget.style.borderColor = 'var(--color-accent-600)';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = 'transparent';
+                    e.currentTarget.style.color = 'var(--color-accent-600)';
+                    e.currentTarget.style.borderColor = 'var(--color-accent-500)';
+                  }}
+                >
+                  <RobotIcon className="w-5 h-5" />
+                  AI Study Tools
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -202,81 +273,11 @@ export const HomePage: React.FC = () => {
       <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
         <div className="bg-gradient-to-bl from-secondary-50/40 via-surface-elevated/90 to-accent-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-secondary-100/20 to-transparent" />
-          <Section 
-            title="Available Courses" 
-            subtitle="Support for UK and worldwide students." 
-            className="relative z-10" titleClassName="text-3xl sm:text-4xl"
-          >
-            <div className="relative group">
-              {/* Left Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(servicesCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll services left"
-              >
-                <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
-              </button>
-
-              {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
-              <div 
-                ref={servicesCarouselRef}
-                className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
-              >
-                {courseSections.flatMap(section => section.levels).map((level, index) => (
-                  <div 
-                    key={level.id} 
-                    className="snap-center flex-shrink-0 w-[85%] sm:w-[45%] md:w-[40%] lg:w-[30%] transition-shadow duration-300 ease-in-out"
-                    style={{ animationDelay: `${index * 100}ms` }}
-                  >
-                    <div className="card-elevated rounded-xl hover:border-primary-500/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden">
-                      {level.imageUrl && (
-                        <div className="h-48 overflow-hidden rounded-t-xl">
-                          <img 
-                            src={level.imageUrl} 
-                            alt={level.name}
-                            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                      )}
-                      <div className="p-6 flex flex-col flex-grow">
-                        <h3 className="text-xl font-heading font-bold text-brand-primary mb-3">
-                          {level.name}
-                        </h3>
-                        {level.subjects.length > 0 && (
-                          <div className="text-sm text-text-secondary mb-3">
-                            <span className="font-medium">Subjects: </span>
-                            {level.subjects.join(', ')}
-                          </div>
-                        )}
-                        {level.description && (
-                          <p className="text-sm text-text-secondary mb-4 flex-grow leading-relaxed">
-                            {level.description}
-                          </p>
-                        )}
-                        {level.examBoards && (
-                          <div className="text-xs text-text-muted italic mt-auto pt-2 border-t border-gray-100">
-                            Exam boards: {level.examBoards.join(', ')}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
-
-              {/* Right Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(servicesCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll services right"
-              >
-                <ChevronRightIcon className="w-6 h-6 text-text-primary" />
-              </button>
-            </div>
-            <div className="text-center mt-10">
+                  <Section 
+          title="Available Courses" 
+          subtitle={
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2 sm:gap-4">
+              <span>Support for UK and worldwide students.</span>
               <Button 
                 variant="primary" 
                 onClick={() => navigate('/services')}
@@ -284,6 +285,98 @@ export const HomePage: React.FC = () => {
               >
                 View All Services <ChevronRightIcon />
               </Button>
+            </div>
+          }
+          className="relative z-10" titleClassName="text-3xl sm:text-4xl"
+        >
+            <div className="flex items-center gap-4">
+              {/* Left Scroll Button */}
+              {servicesScrollState.canScrollLeft && (
+                <button 
+                  onClick={() => scrollCarousel(servicesCarouselRef, 'left')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll services left"
+                >
+                  <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
+
+              <div className="flex-1 relative">
+                {/* Left fade overlay */}
+                <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+              <div 
+                ref={servicesCarouselRef}
+                className="flex overflow-x-auto snap-x snap-mandatory space-x-3 sm:space-x-4 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
+              >
+                {courseSections.flatMap((section, sectionIndex) => [
+                  // Add curriculum header
+                  <div 
+                    key={`header-${section.region}`}
+                    className="snap-start flex-shrink-0 w-[100px] sm:w-[120px] flex items-center justify-center"
+                  >
+                    <div className="bg-gradient-to-br from-brand-primary/10 to-brand-secondary/10 border-2 border-brand-primary/30 rounded-lg p-3 sm:p-4 h-full flex items-center justify-center text-center">
+                      <h3 className="text-xs sm:text-sm font-heading font-bold text-brand-primary leading-tight">
+                        {section.region}
+                      </h3>
+                    </div>
+                  </div>,
+                  // Add courses for this section
+                  ...section.levels.map((level, levelIndex) => (
+                    <div 
+                      key={level.id} 
+                      className="snap-center flex-shrink-0 w-[140px] sm:w-[160px] md:w-[180px] lg:w-[200px] transition-shadow duration-300 ease-in-out"
+                      style={{ animationDelay: `${(sectionIndex * 10 + levelIndex) * 100}ms` }}
+                    >
+                      <div className="card-elevated rounded-lg hover:border-primary-500/50 shadow-lg hover:shadow-xl transition-shadow duration-300 flex flex-col overflow-hidden h-full">
+                        {level.imageUrl && (
+                          <div className="h-24 sm:h-28 overflow-hidden rounded-t-lg">
+                            <img 
+                              src={level.imageUrl} 
+                              alt={level.name}
+                              className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                        )}
+                        <div className="p-3 sm:p-4 flex flex-col flex-grow">
+                          <h3 className="text-sm sm:text-base font-heading font-bold text-brand-primary mb-2 leading-tight">
+                            {level.name}
+                          </h3>
+                          {level.subjects.length > 0 && (
+                            <div className="text-xs text-text-secondary mb-2 leading-tight">
+                              <span className="font-medium">Subjects: </span>
+                              <span className="text-xs">{level.subjects.slice(0, 2).join(', ')}{level.subjects.length > 2 ? '...' : ''}</span>
+                            </div>
+                          )}
+                          {level.subCourses && (
+                            <div className="text-xs text-text-secondary mb-2 leading-tight">
+                              <span className="font-medium">{level.subCourses.length} courses available</span>
+                            </div>
+                          )}
+                          {level.examBoards && (
+                            <div className="text-xs text-text-muted italic mt-auto pt-1 border-t border-gray-100/50 leading-tight">
+                              {level.examBoards.slice(0, 2).join(', ')}{level.examBoards.length > 2 ? '...' : ''}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ]).flat()}
+              </div>
+              {/* Right fade overlay */}
+              <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+              </div>
+
+              {/* Right Scroll Button */}
+              {servicesScrollState.canScrollRight && (
+                <button 
+                  onClick={() => scrollCarousel(servicesCarouselRef, 'right')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll services right"
+                >
+                  <ChevronRightIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
             </div>
           </Section>
         </div>
@@ -294,18 +387,21 @@ export const HomePage: React.FC = () => {
         <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
           <Section title="Learning Resources" subtitle="To use alongside your school work and help with revision." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
-            <div className="relative group">
+            <div className="flex items-center gap-4">
               {/* Left Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(productsCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll products left"
-              >
-                <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
-              </button>
+              {productsScrollState.canScrollLeft && (
+                <button 
+                  onClick={() => scrollCarousel(productsCarouselRef, 'left')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll products left"
+                >
+                  <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
 
-              {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
+              <div className="flex-1 relative">
+                {/* Left fade overlay */}
+                <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={productsCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
@@ -321,16 +417,19 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
+              </div>
 
               {/* Right Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(productsCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll products right"
-              >
-                <ChevronRightIcon className="w-6 h-6 text-text-primary" />
-              </button>
+              {productsScrollState.canScrollRight && (
+                <button 
+                  onClick={() => scrollCarousel(productsCarouselRef, 'right')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll products right"
+                >
+                  <ChevronRightIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
             </div>
             <div className="text-center mt-10">
               <Button 
@@ -354,18 +453,21 @@ export const HomePage: React.FC = () => {
             title="Student Testimonials" 
             className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
-            <div className="relative group">
+            <div className="flex items-center gap-4">
               {/* Left Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(testimonialsCarouselRef, 'left')}
-                className="absolute top-1/2 -translate-y-1/2 left-0 sm:-left-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll testimonials left"
-              >
-                <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
-              </button>
+              {testimonialsScrollState.canScrollLeft && (
+                <button 
+                  onClick={() => scrollCarousel(testimonialsCarouselRef, 'left')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll testimonials left"
+                >
+                  <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
 
+              <div className="flex-1 relative">
                 {/* Left fade overlay */}
-              <div className="absolute top-0 bottom-0 left-0 w-8 sm:w-16 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={testimonialsCarouselRef}
                 className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
@@ -381,16 +483,19 @@ export const HomePage: React.FC = () => {
                 ))}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 sm:w-16 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+              </div>
 
               {/* Right Scroll Button */}
-              <button 
-                onClick={() => scrollCarousel(testimonialsCarouselRef, 'right')}
-                className="absolute top-1/2 -translate-y-1/2 right-0 sm:-right-4 z-20 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-all duration-300 focus:outline-none backdrop-blur-sm"
-                aria-label="Scroll testimonials right"
-              >
-                <ChevronRightIcon className="w-6 h-6 text-text-primary" />
-              </button>
+              {testimonialsScrollState.canScrollRight && (
+                <button 
+                  onClick={() => scrollCarousel(testimonialsCarouselRef, 'right')}
+                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  aria-label="Scroll testimonials right"
+                >
+                  <ChevronRightIcon className="w-6 h-6 text-text-primary" />
+                </button>
+              )}
             </div>
           </Section>
         </div>

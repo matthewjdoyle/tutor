@@ -1,86 +1,103 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { howItWorksSteps } from '../../data/servicesPageData';
 
 export const HowItWorksTimeline: React.FC = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [lineHeight, setLineHeight] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const stepRefs = useRef<(HTMLLIElement | null)[]>([]);
+  const currentStep = howItWorksSteps[activeIndex];
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!containerRef.current || stepRefs.current.length === 0) return;
+  const handleNext = () => {
+    if (activeIndex < howItWorksSteps.length - 1) {
+      setActiveIndex(activeIndex + 1);
+    }
+  };
 
-      const containerTop = containerRef.current.getBoundingClientRect().top;
-      const scrollY = window.scrollY;
-      const triggerPoint = window.innerHeight * 0.5;
-
-      let newActiveIndex = -1;
-      
-      stepRefs.current.forEach((step, index) => {
-        if (step && step.getBoundingClientRect().top < triggerPoint) {
-          newActiveIndex = index;
-        }
-      });
-      
-      if(newActiveIndex !== -1) {
-        setActiveIndex(newActiveIndex);
-
-        const firstStep = stepRefs.current[0];
-        const lastStep = stepRefs.current[stepRefs.current.length - 1];
-        const activeStep = stepRefs.current[newActiveIndex];
-
-        if (firstStep && lastStep && activeStep) {
-          const firstStepTop = firstStep.offsetTop;
-          const activeStepTop = activeStep.offsetTop;
-          const progress = (activeStepTop - firstStepTop) / (lastStep.offsetTop - firstStepTop);
-          const totalHeight = lastStep.offsetTop - firstStepTop;
-          
-          setLineHeight(Math.min(totalHeight, activeStepTop - firstStepTop + 20));
-        }
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  const handlePrevious = () => {
+    if (activeIndex > 0) {
+      setActiveIndex(activeIndex - 1);
+    }
+  };
 
   return (
-    <div ref={containerRef} className="bg-white rounded-lg border border-neutral-border p-8 shadow-sm">
-      <h2 className="text-3xl font-heading font-bold text-brand-primary mb-8 text-center">How It Works</h2>
-      <div className="relative">
-        <div className="absolute left-4 top-2 w-0.5 h-full bg-brand-primary/10" />
-        <div 
-          className="absolute left-4 top-2 w-0.5 bg-brand-primary transition-all duration-300 ease-out" 
-          style={{ height: `${lineHeight}px` }}
-        />
-        
-        <ol className="space-y-16">
-          {howItWorksSteps.map((item, index) => (
-            <li 
-              key={item.step} 
-              ref={el => stepRefs.current[index] = el}
-              className="relative pl-12"
-            >
-              <div 
-                className={`absolute left-0 top-0 flex items-center justify-center w-8 h-8 rounded-full transition-all duration-300 ease-in-out
-                  ${activeIndex === index ? 'bg-brand-primary scale-110 ring-8 ring-brand-primary/20' : 'bg-neutral-border scale-90'}`}
+    <div className="bg-white rounded-lg border border-neutral-border p-6 sm:p-8 shadow-sm">
+      <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6 text-center">How It Works</h2>
+      
+      {/* Step indicators */}
+      <div className="flex justify-center mb-8">
+        <div className="flex items-center space-x-2 sm:space-x-4">
+          {howItWorksSteps.map((_, index) => (
+            <React.Fragment key={index}>
+              <button
+                onClick={() => setActiveIndex(index)}
+                className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center font-semibold text-sm sm:text-base transition-all duration-500 ease-out transform hover:scale-105 ${
+                  activeIndex === index 
+                    ? 'bg-brand-primary text-white scale-110 shadow-lg ring-4 ring-brand-primary/20' 
+                    : activeIndex > index
+                    ? 'bg-brand-primary/20 text-brand-primary hover:bg-brand-primary/30 hover:scale-105'
+                    : 'bg-neutral-200 text-neutral-500 hover:bg-neutral-300 hover:scale-105'
+                }`}
               >
-                <span className={`font-bold transition-colors duration-300 ${activeIndex === index ? 'text-white' : 'text-text-secondary'}`}>
-                  {item.step}
-                </span>
-              </div>
-              <div 
-                className={`transition-all duration-500 ease-out ${activeIndex >= index ? 'opacity-100 transform-none' : 'opacity-40 translate-y-3'}`}
-              >
-                <h3 className="text-xl font-semibold text-text-primary mb-2">{item.title}</h3>
-                <p className="text-text-secondary leading-relaxed">{item.description}</p>
-              </div>
-            </li>
+                {index + 1}
+              </button>
+              {index < howItWorksSteps.length - 1 && (
+                <div className={`w-8 sm:w-12 h-0.5 transition-all duration-500 ease-out ${
+                  activeIndex > index ? 'bg-brand-primary shadow-sm' : 'bg-neutral-200'
+                }`} />
+              )}
+            </React.Fragment>
           ))}
-        </ol>
+        </div>
+      </div>
+
+      {/* Current step content */}
+      <div className="text-center min-h-[120px] flex flex-col justify-center relative overflow-hidden">
+        <div 
+          key={activeIndex} 
+          className="animate-[fadeSlideUp_0.5s_ease-out_forwards] opacity-0"
+          style={{ animationFillMode: 'forwards' }}
+        >
+          <div className="mb-4">
+            <span className="inline-block px-3 py-1 bg-brand-primary/10 text-brand-primary rounded-full text-sm font-medium mb-3 transform transition-all duration-300">
+              Step {currentStep.step}
+            </span>
+          </div>
+          <h3 className="text-xl sm:text-2xl font-heading font-semibold text-text-primary mb-4 transform transition-all duration-300">
+            {currentStep.title}
+          </h3>
+          <p className="text-text-secondary leading-relaxed max-w-2xl mx-auto transform transition-all duration-300">
+            {currentStep.description}
+          </p>
+        </div>
+      </div>
+
+      {/* Navigation buttons */}
+      <div className="flex justify-between items-center mt-8">
+        <button
+          onClick={handlePrevious}
+          disabled={activeIndex === 0}
+          className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ease-out transform ${
+            activeIndex === 0
+              ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed opacity-50'
+              : 'bg-neutral-200 text-neutral-700 hover:bg-neutral-300 hover:scale-105 hover:shadow-md'
+          }`}
+        >
+          ← Previous
+        </button>
+        
+        <span className="text-sm text-neutral-500 transition-opacity duration-300">
+          {activeIndex + 1} of {howItWorksSteps.length}
+        </span>
+        
+        <button
+          onClick={handleNext}
+          disabled={activeIndex === howItWorksSteps.length - 1}
+          className={`px-4 py-2 rounded-lg font-medium transition-all duration-300 ease-out transform ${
+            activeIndex === howItWorksSteps.length - 1
+              ? 'bg-neutral-100 text-neutral-400 cursor-not-allowed opacity-50'
+              : 'bg-brand-primary text-white hover:bg-brand-primary/90 hover:scale-105 shadow-md hover:shadow-lg'
+          }`}
+        >
+          Next →
+        </button>
       </div>
     </div>
   );

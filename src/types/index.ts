@@ -24,6 +24,11 @@ export interface CourseLevel {
   examBoards?: string[];
   description?: string; // For homepage carousel only
   imageUrl?: string; // For homepage carousel images
+  subCourses?: {
+    id: string;
+    name: string;
+    description?: string;
+  }[];
 }
 
 export interface CourseSection {
