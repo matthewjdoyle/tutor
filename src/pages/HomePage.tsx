@@ -50,7 +50,6 @@ export const HomePage: React.FC = () => {
       {/* Hero Section - Full viewport height */}
       <section className="min-h-screen flex items-center justify-center bg-gradient-mesh text-center relative overflow-hidden">
         {/* Beautiful Background Pattern */}
-        <div className="absolute inset-0 bg-pattern-dots opacity-30" />
         <div className="absolute inset-0 bg-gradient-hero" />
         
         <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-20">
@@ -202,7 +201,6 @@ export const HomePage: React.FC = () => {
       {/* Services Overview - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-right opacity-100 translate-x-0">
         <div className="bg-gradient-to-bl from-secondary-50/40 via-surface-elevated/90 to-accent-50/30 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
-          <div className="absolute inset-0 bg-pattern-grid opacity-15" />
           <div className="absolute inset-0 bg-gradient-to-l from-transparent via-secondary-100/20 to-transparent" />
           <Section 
             title="Available Courses" 
@@ -294,7 +292,6 @@ export const HomePage: React.FC = () => {
       {/* Store Preview / Learning Resources Preview - Beautiful gradient background */}
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
         <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
-          <div className="absolute inset-0 bg-pattern-dots opacity-12" />
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
           <Section title="Learning Resources" subtitle="To use alongside your school work and help with revision." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
             <div className="relative group">
