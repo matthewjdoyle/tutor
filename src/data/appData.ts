@@ -15,21 +15,21 @@ export const navLinks: NavLinkItem[] = [
 
 export const testimonials = [
   {
-    quote: "Dr. Doyle's tutoring transformed my understanding of A-Level Physics. I went from a C to an A*!",
-    name: "Sarah K.",
+    quote: "Thank you for your dedication whilst you yourself have been busy. You inspired me to learn how to enjoy studying, I would not be at the level I am now without you.",
+    name: "S. L. (A-Level Physics)",
     location: "London, UK",
     imageUrl: "student-1.jpeg"
   },
   {
-    quote: "The AP Calculus sessions were incredibly helpful. Dr. Doyle explains complex topics very clearly.",
-    name: "Mike P.",
-    location: "California, USA",
+    quote: "The AP Calculus sessions were incredibly helpful.",
+    name: "A. T. & T. O. (AP Calculus BC)",
+    location: "Almaty, Khazakstan",
     imageUrl: "student-2.jpg"
   },
   {
     quote: "I highly recommend Dr. Doyle for anyone struggling with Maths. Patient, knowledgeable, and effective.",
-    name: "Emily R.",
-    location: "Manchester, UK",
+    name: "F. A. (A-Level Physics)",
+    location: "British Columbia, Canada",
     imageUrl: "student-3.jpg"
   }
 ];
