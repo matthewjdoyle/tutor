@@ -16,19 +16,22 @@ export const navLinks: NavLinkItem[] = [
 export const testimonials = [
   {
     quote: "Thank you for your dedication whilst you yourself have been busy. You inspired me to learn how to enjoy studying, I would not be at the level I am now without you.",
-    name: "S. L. (A-Level Physics)",
+    name: "S. L.",
+    course: "A-Level Physics",
     location: "London, UK",
     imageUrl: "student-1.jpeg"
   },
   {
     quote: "The AP Calculus sessions were incredibly helpful.",
-    name: "A. T. & T. O. (AP Calculus BC)",
+    name: "A. T. & T. O.",
+    course: "AP Calculus BC",
     location: "Almaty, Khazakstan",
     imageUrl: "student-2.jpg"
   },
   {
     quote: "I highly recommend Dr. Doyle for anyone struggling with Maths. Patient, knowledgeable, and effective.",
-    name: "F. A. (A-Level Physics)",
+    name: "F. A.",
+    course: "Physics 11 & 12",
     location: "British Columbia, Canada",
     imageUrl: "student-3.jpg"
   }
