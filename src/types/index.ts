@@ -51,5 +51,5 @@ export interface ExternalLearningResource {
   name: string;
   url: string;
   audience: string;
-  icon: React.ElementType;
+  icon: React.ElementType | string;
 }

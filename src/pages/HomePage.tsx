@@ -23,75 +23,64 @@ const AnimatedSection: React.FC<{ children: React.ReactNode; animationClass: str
 
 export const HomePage: React.FC = () => {
   const navigate = useNavigate();
-  const servicesCarouselRef = useRef<HTMLDivElement>(null);
-  const productsCarouselRef = useRef<HTMLDivElement>(null);
-  const testimonialsCarouselRef = useRef<HTMLDivElement>(null);
+  const servicesCarouselRef = useRef<HTMLDivElement | null>(null);
+  const productsCarouselRef = useRef<HTMLDivElement | null>(null);
+  const testimonialsCarouselRef = useRef<HTMLDivElement | null>(null);
 
   // Scroll position states
-  const [servicesScrollState, setServicesScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
-  const [productsScrollState, setProductsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
-  const [testimonialsScrollState, setTestimonialsScrollState] = useState({ canScrollLeft: false, canScrollRight: true });
+  const [servicesScrollState, setServicesScrollState] = useState({ canScrollLeft: false, canScrollRight: false });
+  const [productsScrollState, setProductsScrollState] = useState({ canScrollLeft: false, canScrollRight: false });
+  const [testimonialsScrollState, setTestimonialsScrollState] = useState({ canScrollLeft: false, canScrollRight: false });
 
   const checkScrollPosition = (element: HTMLDivElement) => {
     const { scrollLeft, scrollWidth, clientWidth } = element;
+    // Add a small tolerance to prevent floating point inaccuracies
+    const tolerance = 2;
     return {
-      canScrollLeft: scrollLeft > 0,
-      canScrollRight: scrollLeft < scrollWidth - clientWidth - 1 // -1 for rounding
+      canScrollLeft: scrollLeft > tolerance,
+      canScrollRight: scrollLeft < scrollWidth - clientWidth - tolerance,
     };
   };
 
-  const updateScrollState = (ref: React.RefObject<HTMLDivElement>, setState: React.Dispatch<React.SetStateAction<{ canScrollLeft: boolean; canScrollRight: boolean }>>) => {
+  const updateScrollState = (ref: React.RefObject<HTMLDivElement | null>, setState: React.Dispatch<React.SetStateAction<{ canScrollLeft: boolean; canScrollRight: boolean }>>) => {
     if (ref.current) {
       setState(checkScrollPosition(ref.current));
     }
   };
 
   useEffect(() => {
-    const servicesElement = servicesCarouselRef.current;
-    const productsElement = productsCarouselRef.current;
-    const testimonialsElement = testimonialsCarouselRef.current;
+    const carouselRefs = [
+      { ref: servicesCarouselRef, handler: () => updateScrollState(servicesCarouselRef, setServicesScrollState) },
+      { ref: productsCarouselRef, handler: () => updateScrollState(productsCarouselRef, setProductsScrollState) },
+      { ref: testimonialsCarouselRef, handler: () => updateScrollState(testimonialsCarouselRef, setTestimonialsScrollState) },
+    ];
 
-    const handleServicesScroll = () => updateScrollState(servicesCarouselRef, setServicesScrollState);
-    const handleProductsScroll = () => updateScrollState(productsCarouselRef, setProductsScrollState);
-    const handleTestimonialsScroll = () => updateScrollState(testimonialsCarouselRef, setTestimonialsScrollState);
+    const resizeObserver = new ResizeObserver(() => {
+      for (const item of carouselRefs) {
+        item.handler();
+      }
+    });
 
-    // Initial check with slight delay to ensure content is rendered
-    const initialCheck = () => {
-      setTimeout(() => {
-        if (servicesElement) handleServicesScroll();
-        if (productsElement) handleProductsScroll();
-        if (testimonialsElement) handleTestimonialsScroll();
-      }, 100);
-    };
+    const elements: (HTMLDivElement | null)[] = [];
 
-    if (servicesElement) {
-      servicesElement.addEventListener('scroll', handleServicesScroll);
-      initialCheck(); // Initial check with delay
-    }
-    if (productsElement) {
-      productsElement.addEventListener('scroll', handleProductsScroll);
-      initialCheck(); // Initial check with delay
-    }
-    if (testimonialsElement) {
-      testimonialsElement.addEventListener('scroll', handleTestimonialsScroll);
-      initialCheck(); // Initial check with delay
-    }
-
-    // Also check on window resize
-    const handleResize = () => {
-      if (servicesElement) handleServicesScroll();
-      if (productsElement) handleProductsScroll();
-      if (testimonialsElement) handleTestimonialsScroll();
-    };
-
-    window.addEventListener('resize', handleResize);
-    initialCheck(); // Run initial check
+    carouselRefs.forEach(item => {
+      const el = item.ref.current;
+      if (el) {
+        el.addEventListener('scroll', item.handler);
+        resizeObserver.observe(el);
+        elements.push(el);
+        // Initial check
+        item.handler();
+      }
+    });
 
     return () => {
-      if (servicesElement) servicesElement.removeEventListener('scroll', handleServicesScroll);
-      if (productsElement) productsElement.removeEventListener('scroll', handleProductsScroll);
-      if (testimonialsElement) testimonialsElement.removeEventListener('scroll', handleTestimonialsScroll);
-      window.removeEventListener('resize', handleResize);
+      elements.forEach((el, index) => {
+        if (el) {
+          el.removeEventListener('scroll', carouselRefs[index].handler);
+          resizeObserver.unobserve(el);
+        }
+      });
     };
   }, []);
 
@@ -289,24 +278,24 @@ export const HomePage: React.FC = () => {
           }
           className="relative z-10" titleClassName="text-3xl sm:text-4xl"
         >
-            <div className="flex items-center gap-4">
+            <div className="relative flex items-center">
               {/* Left Scroll Button */}
               {servicesScrollState.canScrollLeft && (
                 <button 
                   onClick={() => scrollCarousel(servicesCarouselRef, 'left')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll services left"
                 >
                   <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
                 </button>
               )}
 
-              <div className="flex-1 relative">
+              <div className="flex-1 relative min-w-0">
                 {/* Left fade overlay */}
-                <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+                <div className="absolute top-0 bottom-0 left-0 w-12 bg-gradient-to-r from-secondary-50/40 via-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={servicesCarouselRef}
-                className="flex overflow-x-auto snap-x snap-mandatory space-x-3 sm:space-x-4 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
+                className="flex overflow-x-auto snap-x snap-mandatory space-x-3 sm:space-x-4 pb-6 hide-scrollbar scrolling-touch px-4 sm:px-6"
               >
                 {courseSections.flatMap((section, sectionIndex) => [
                   // Add curriculum header
@@ -364,14 +353,14 @@ export const HomePage: React.FC = () => {
                 ]).flat()}
               </div>
               {/* Right fade overlay */}
-              <div className="absolute top-0 bottom-0 right-0 w-8 bg-gradient-to-l from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
+              <div className="absolute top-0 bottom-0 right-0 w-12 bg-gradient-to-l from-secondary-50/40 via-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               </div>
 
               {/* Right Scroll Button */}
               {servicesScrollState.canScrollRight && (
                 <button 
                   onClick={() => scrollCarousel(servicesCarouselRef, 'right')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll services right"
                 >
                   <ChevronRightIcon className="w-6 h-6 text-text-primary" />
@@ -387,24 +376,24 @@ export const HomePage: React.FC = () => {
         <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
           <Section title="Learning Resources" subtitle="To use alongside your school work and help with revision." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
-            <div className="flex items-center gap-4">
+            <div className="relative flex items-center">
               {/* Left Scroll Button */}
               {productsScrollState.canScrollLeft && (
                 <button 
                   onClick={() => scrollCarousel(productsCarouselRef, 'left')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll products left"
                 >
                   <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
                 </button>
               )}
 
-              <div className="flex-1 relative">
+              <div className="flex-1 relative min-w-0">
                 {/* Left fade overlay */}
                 <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-primary/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={productsCarouselRef}
-                className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
+                className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-4 sm:px-6"
               >
                 {allLearningResources.map((product, index) => (
                   <div 
@@ -424,7 +413,7 @@ export const HomePage: React.FC = () => {
               {productsScrollState.canScrollRight && (
                 <button 
                   onClick={() => scrollCarousel(productsCarouselRef, 'right')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll products right"
                 >
                   <ChevronRightIcon className="w-6 h-6 text-text-primary" />
@@ -453,24 +442,24 @@ export const HomePage: React.FC = () => {
             title="Student Testimonials" 
             className="relative z-10" titleClassName="text-3xl sm:text-4xl"
           >
-            <div className="flex items-center gap-4">
+            <div className="relative flex items-center">
               {/* Left Scroll Button */}
               {testimonialsScrollState.canScrollLeft && (
                 <button 
                   onClick={() => scrollCarousel(testimonialsCarouselRef, 'left')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute left-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll testimonials left"
                 >
                   <ChevronLeftIcon className="w-6 h-6 text-text-primary" />
                 </button>
               )}
 
-              <div className="flex-1 relative">
+              <div className="flex-1 relative min-w-0">
                 {/* Left fade overlay */}
                 <div className="absolute top-0 bottom-0 left-0 w-8 bg-gradient-to-r from-surface-elevated/90 to-transparent z-10 pointer-events-none"></div>
               <div 
                 ref={testimonialsCarouselRef}
-                className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-2 sm:px-0"
+                className="flex overflow-x-auto snap-x snap-mandatory space-x-6 sm:space-x-8 pb-6 hide-scrollbar scrolling-touch px-4 sm:px-6"
               >
                 {testimonials.map((testimonial, index) => (
                   <div 
@@ -490,7 +479,7 @@ export const HomePage: React.FC = () => {
               {testimonialsScrollState.canScrollRight && (
                 <button 
                   onClick={() => scrollCarousel(testimonialsCarouselRef, 'right')}
-                  className="flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 z-20 flex-shrink-0 p-2 bg-surface-elevated/80 hover:bg-surface-elevated border border-border-primary rounded-full shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none backdrop-blur-sm"
                   aria-label="Scroll testimonials right"
                 >
                   <ChevronRightIcon className="w-6 h-6 text-text-primary" />
