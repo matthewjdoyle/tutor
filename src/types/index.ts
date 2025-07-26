@@ -7,6 +7,7 @@ export interface Product {
   imageUrl: string;
   category: 'Maths' | 'Physics' | 'General';
   isFree: boolean;
+  pdfUrl?: string; // Optional PDF URL for free downloadable resources
 }
 
 export interface Service {
