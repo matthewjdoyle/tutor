@@ -39,10 +39,10 @@ export const ServicesPage: React.FC = () => {
           <div className="card-elevated rounded-2xl p-8 shadow-lg">
             <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Exam Preparation</h2>
             <p className="text-text-secondary mb-4 leading-relaxed">
-              Preparing for exams can be a particularly stressful experience as they require not just a high level of subject knowledge, but also practice of exam technique. Our tutors help to make preparing for exams a more enjoyable experience, which ultimately results in greater efficiency of revision and subsequently higher grades.
+              Exam season doesn’t have to be overwhelming. My sessions focus on the exact assessment objectives for your exam board, pairing clear explanations with plenty of timed practice so you know precisely what the examiner wants.
             </p>
             <p className="text-text-secondary leading-relaxed">
-              We provide support to students in all subjects and for all exam boards at GCSE, IGCSE and A-level. We also have specialist tutors who work with students to prepare for IB examinations.
+              I’ll provide high-quality, exam-specific notes and question sets written just for you, and point you towards the best past-paper banks, videos and interactive resources I’ve vetted over years of tutoring.
             </p>
             <div className="mt-8">
               <h3 className="text-lg font-semibold text-text-primary mb-4">We cover all major exam boards:</h3>
@@ -63,14 +63,18 @@ export const ServicesPage: React.FC = () => {
         >
           <div className="card-elevated rounded-2xl p-8 shadow-lg">
             <div className="space-y-8">
-              {courseSections.map((section) => (
-                <div key={section.region} className="card-elevated rounded-xl p-6">
+              {courseSections.map((section, index) => (
+                <div key={section.region} className="rounded-xl overflow-hidden">
+                  <div
+                    className="card-elevated rounded-xl p-6"
+                    style={{ background: index % 3 === 0 ? 'rgba(14,165,233,0.15)' : index % 3 === 1 ? 'rgba(59,130,246,0.15)' : 'rgba(20,184,166,0.15)' }}
+                  >
                   <h3 className="text-2xl font-heading font-bold text-brand-primary mb-6 border-b border-neutral-border pb-4">
                     {section.region}
                   </h3>
                                      <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                      {section.levels.map((level) => (
-                       <div key={level.id} className="bg-surface-primary border border-border-muted rounded-lg p-4">
+                       <div key={level.id} className="bg-white border border-border-muted rounded-lg p-4">
                          <h4 className="text-lg font-semibold text-text-primary mb-2">
                            {level.name}
                          </h4>
@@ -99,6 +103,7 @@ export const ServicesPage: React.FC = () => {
                        </div>
                      ))}
                    </div>
+                  </div>
                 </div>
               ))}
             </div>
@@ -130,18 +135,22 @@ export const ServicesPage: React.FC = () => {
               <div className="card-elevated border-2 border-primary-500/20 rounded-2xl p-6 shadow-lg space-y-4">
                 {/* GBP Price */}
                 <div className="bg-gradient-to-br from-brand-primary to-brand-primary/80 text-white rounded-lg p-5 text-center shadow-md transform hover:scale-105 transition-transform duration-300">
-                  <div className="text-4xl font-heading font-bold mb-1">£45</div>
+                  <div className="text-4xl font-heading font-bold mb-1">£50</div>
                   <div className="text-sm font-medium opacity-90">per hour</div>
                 </div>
                 
                 {/* EUR & USD Prices */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-3 gap-4">
                   <div className="bg-gradient-to-br from-brand-secondary to-brand-secondary/80 text-white rounded-lg p-4 text-center shadow-md transform hover:scale-105 transition-transform duration-300">
-                    <div className="text-2xl font-heading font-bold">€55</div>
+                    <div className="text-2xl font-heading font-bold">€57</div>
                     <div className="text-xs opacity-90">per hour</div>
                   </div>
                   <div className="bg-gradient-to-br from-brand-primary-alt to-brand-primary-alt/80 text-white rounded-lg p-4 text-center shadow-md transform hover:scale-105 transition-transform duration-300">
-                    <div className="text-2xl font-heading font-bold">$60</div>
+                    <div className="text-2xl font-heading font-bold">$67</div>
+                    <div className="text-xs opacity-90">per hour</div>
+                  </div>
+                  <div className="bg-gradient-to-br from-brand-accent to-brand-accent/80 text-white rounded-lg p-4 text-center shadow-md transform hover:scale-105 transition-transform duration-300">
+                    <div className="text-2xl font-heading font-bold">¥482</div>
                     <div className="text-xs opacity-90">per hour</div>
                   </div>
                 </div>
@@ -150,13 +159,13 @@ export const ServicesPage: React.FC = () => {
                 <div className="bg-gradient-to-r from-brand-accent/10 to-brand-accent/5 border border-brand-accent/30 rounded-lg p-4 mt-4">
                   <div className="text-center">
                     <div className="font-heading font-bold text-brand-accent mb-1">
-                      Save 20% on Bulk Sessions
+                      Save 10% on Bulk Sessions
                     </div>
                     <div className="text-sm text-text-secondary">
-                      Book 12+ hours for a discount.
+                      Book 12+ hours at once for a discount.
                     </div>
                     <div className="mt-2 text-xs text-text-muted">
-                      e.g. 12 hours £540 → <span className="font-bold text-brand-accent">£432</span>
+                      e.g. 12 hours £600 → <span className="font-bold text-brand-accent">£540</span>
                     </div>
                   </div>
                 </div>

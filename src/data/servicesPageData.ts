@@ -2,27 +2,27 @@ export const howItWorksSteps = [
   {
     step: 1,
     title: "Consultation",
-    description: "Each of our tutoring assignments begins with a discussion with parents and students to understand their educational aims.",
+    description: "We start with a short video call to discuss your goals, exam board and any challenges you’re facing.",
   },
   {
     step: 2,
-    title: "Academic Assessment & Interview",
-    description: "One of our senior tutors conducts an academic assessment in the chosen subject. This allows us to get an accurate and detailed understanding of your child's level and their strengths and weaknesses.",
+    title: "The First Tutorial",
+    description: "Our first full lesson lets us evaluate your current understanding and see how well we work together. I’ll set some diagnostic questions and identify key focus areas.",
   },
   {
     step: 3,
-    title: "Academic Report & Study Plan",
-    description: "Once the senior tutor has drafted the assessment report, they work together with our academic manager to produce a study plan for the student. This is then sent to the parents for their consideration.",
+    title: "Study Plan",
+    description: "After the first tutorial I’ll create a personalised study plan and share a Google Drive folder containing resources we'll use.",
   },
   {
     step: 4,
     title: "Scheduling Lessons",
-    description: "Once a schedule has been agreed, a timetable is published and lessons begin.",
+    description: "We’ll agree a weekly slot and set up a recurring Google Meet link. All lesson notes and Excalidraw whiteboards are saved to your folder.",
   },
   {
     step: 5,
-    title: "Regular Progress Meetings",
-    description: "Tutor deliver reports 4 times over the course of the academic year. We stay in close contact with parents to keep them updated on their child's progress.",
+    title: "Ongoing Progress",
+    description: "You’ll receive regular feedback and progress snapshots, and the plan can be adjusted at any time.",
   },
 ];
 
@@ -50,5 +50,17 @@ export const faqData = [
   {
     question: "How do you track a student's progress?",
     answer: "Progress is tracked through regular topic-based assessments, feedback on homework, and performance in mock examinations. I provide regular feedback to both students and parents to highlight areas of improvement and celebrate successes."
-  }
+  },
+  {
+    question: "What is your cancellation policy?",
+    answer: "If you cancel more than 24 hours before a scheduled lesson there is no charge and we can simply reschedule. Cancellations made within 24 hours are charged at 75 % of the usual lesson fee. If this happens more than twice in a calendar month, any further late cancellations that month are charged at the full lesson price.",
+  },
+  {
+    question: "How and when do I pay for lessons?",
+    answer: "Invoices are issued at the end of each week and are payable within 7 days by bank transfer or debit / credit card. Multi-hour packages (e.g. 12-hour bundles) are invoiced in advance to secure the discount. Lessons are only confirmed once payment has been received.",
+  },
+  {
+    question: "Do you record lessons and how is my data kept secure?",
+    answer: "Lessons are not routinely recorded. Any files we share – notes, worksheets, Excalidraw boards or OneNote pages – are stored in a private Google Drive folder that only you and I can access. Your personal information is never shared with third parties.",
+  },
 ]; 
