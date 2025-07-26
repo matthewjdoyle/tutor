@@ -375,7 +375,23 @@ export const HomePage: React.FC = () => {
       <AnimatedSection animationClass="animate-slide-in-left opacity-100 translate-x-0">
         <div className="bg-gradient-to-tr from-accent-50/30 via-surface-primary/90 to-primary-50/40 backdrop-blur-sm py-20 transition-all duration-700 ease-in-out mt-12 sm:mt-16 mb-12 sm:mb-16 relative">
           <div className="absolute inset-0 bg-gradient-to-br from-transparent via-accent-100/15 to-transparent" />
-          <Section title="Learning Resources" subtitle="To use alongside your school work and help with revision." className="relative z-10" titleClassName="text-3xl sm:text-4xl">
+          <Section
+            title="Learning Resources"
+            subtitle={
+              <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center gap-2 sm:gap-4">
+                <span>To use alongside your school work and help with revision.</span>
+                <Button
+                  variant="secondary"
+                  onClick={() => navigate('/learning-resources')}
+                  className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
+                >
+                  View All Resources <ChevronRightIcon />
+                </Button>
+              </div>
+            }
+            className="relative z-10"
+            titleClassName="text-3xl sm:text-4xl"
+          >
             <div className="relative flex items-center">
               {/* Left Scroll Button */}
               {productsScrollState.canScrollLeft && (
@@ -420,15 +436,7 @@ export const HomePage: React.FC = () => {
                 </button>
               )}
             </div>
-            <div className="text-center mt-10">
-              <Button 
-                variant="secondary" 
-                onClick={() => navigate('/learning-resources')}
-                className="transform hover:scale-105 transition-all duration-300 shadow-lg hover:shadow-xl"
-              >
-                View All Resources <ChevronRightIcon />
-              </Button>
-            </div>
+            {/* Button moved into subtitle above */}
           </Section>
         </div>
       </AnimatedSection>

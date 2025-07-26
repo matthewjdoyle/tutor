@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Section } from '../components/common/Section';
 import { Button } from '../components/common/Button';
 import { FaqItem } from '../components/common/FaqItem';
+import TimezoneWorkingHours from '../components/common/TimezoneWorkingHours';
 import { ChevronRightIcon } from '../assets/icons';
 import { PencilIcon } from '../assets/icons';
 import { TUTOR_NAME, courseSections } from '../data';
@@ -12,6 +13,12 @@ import { HowItWorksTimeline } from '../components/common/HowItWorksTimeline';
 
 export const ServicesPage: React.FC = () => {
   const navigate = useNavigate();
+
+  // Combine static FAQs with working hours FAQ that includes interactive timezone conversion
+  const faqs = [...faqData, {
+    question: 'What are your typical working hours?',
+    answer: <TimezoneWorkingHours />
+  }];
 
   return (
     <div className="bg-gradient-mesh min-h-screen">
@@ -177,7 +184,7 @@ export const ServicesPage: React.FC = () => {
           <div className="lg:col-span-3">
             <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Frequently Asked Questions</h2>
             <div className="space-y-4">
-              {faqData.map((faq, index) => (
+              {faqs.map((faq, index) => (
                 <FaqItem key={index} question={faq.question} answer={faq.answer} />
               ))}
             </div>

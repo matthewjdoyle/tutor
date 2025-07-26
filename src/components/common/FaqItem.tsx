@@ -3,7 +3,7 @@ import { ChevronRightIcon } from '../../assets/icons';
 
 interface FaqItemProps {
   question: string;
-  answer: string;
+  answer: React.ReactNode;
 }
 
 export const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
@@ -28,7 +28,7 @@ export const FaqItem: React.FC<FaqItemProps> = ({ question, answer }) => {
         }`}
       >
         <div className="overflow-hidden">
-          <p className="pb-4 text-text-secondary leading-relaxed">{answer}</p>
+          <div className="pb-4 text-text-secondary leading-relaxed">{answer}</div>
         </div>
       </div>
     </div>
