@@ -238,7 +238,7 @@ export const HomePage: React.FC = () => {
                   </div>
                   
                   <p className="text-xs sm:text-base lg:text-lg text-text-secondary mb-4 sm:mb-8 leading-relaxed opacity-0 animate-[fadeSlideUp_0.8s_ease-out_forwards]" style={{animationDelay:'0.25s'}}>
-                    With a PhD and years of experience teaching students across the UK and USA, {TUTOR_NAME} offers a unique blend of deep subject knowledge and tailored teaching strategies to help you succeed in Maths, Physics, and Computer Science.
+                    I’m a PhD-trained physicist who now focuses on helping students worldwide master Maths, Physics and Coding. My sessions pair research-level insight with clear, friendly explanations so you leave each lesson more confident than you arrived.
                   </p>
                   
                   <Button 

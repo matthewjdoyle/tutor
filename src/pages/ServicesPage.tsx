@@ -31,7 +31,7 @@ export const ServicesPage: React.FC = () => {
             Academic Services
           </h1>
           <p className="mt-6 text-base sm:text-lg text-text-primary max-w-2xl mx-auto">
-            Personalized, one-on-one online tutoring in Maths, Physics, and Computer Science. I focus on building deep understanding, exam technique, and academic confidence for students at all levels.
+            Personalised, one-on-one online tutoring in Maths, Physics, and Computer Science. I focus on building deep understanding, exam technique, and academic confidence for students at all levels.
           </p>
         </div>
       </header>
@@ -43,23 +43,7 @@ export const ServicesPage: React.FC = () => {
         <div className="max-w-4xl mx-auto space-y-20">
           <HowItWorksTimeline />
           
-          <div className="card-elevated rounded-2xl p-8 shadow-lg">
-            <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Exam Preparation</h2>
-            <p className="text-text-secondary mb-4 leading-relaxed">
-              Exam season doesn’t have to be overwhelming. My sessions focus on the exact assessment objectives for your exam board, pairing clear explanations with plenty of timed practice so you know precisely what the examiner wants.
-            </p>
-            <p className="text-text-secondary leading-relaxed">
-              I’ll provide high-quality, exam-specific notes and question sets written just for you, and point you towards the best past-paper banks, videos and interactive resources I’ve vetted over years of tutoring.
-            </p>
-            <div className="mt-8">
-              <h3 className="text-lg font-semibold text-text-primary mb-4">We cover all major exam boards:</h3>
-              <div className="flex flex-wrap gap-6 items-center">
-                {examBoardLogos.map((board) => (
-                  <img key={board.name} src={board.logoUrl} alt={board.name} className="h-10 object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all" />
-                ))}
-              </div>
-            </div>
-          </div>
+          {/* Exam Preparation section moved below */}
         </div>
 
         {/* Course Offerings Section */}
@@ -131,6 +115,53 @@ export const ServicesPage: React.FC = () => {
             </div>
           </div>
         </Section>
+
+        {/* Exam Preparation Section */}
+        <div className="card-elevated rounded-2xl p-8 shadow-lg mt-20">
+          <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">Exam Preparation</h2>
+          <p className="text-text-secondary mb-4 leading-relaxed">
+            Exam season doesn't have to be overwhelming. My sessions focus on the exact assessment objectives for your exam board, pairing clear explanations with plenty of timed practice so you know precisely what the examiner wants.
+          </p>
+          <p className="text-text-secondary leading-relaxed">
+            I'll provide high-quality, exam-specific notes and question sets written just for you, and point you towards the best past-paper banks, videos and interactive resources I’ve vetted over years of tutoring.
+          </p>
+          <div className="mt-8">
+            <h3 className="text-lg font-semibold text-text-primary mb-4">We cover all major exam boards:</h3>
+            <div className="flex flex-wrap gap-6 items-center">
+              {examBoardLogos.map((board) => (
+                <img
+                  key={board.name}
+                  src={board.logoUrl}
+                  alt={board.name}
+                  className="h-10 object-contain grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all"
+                />
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* General Tutoring Section */}
+        <div className="card-elevated rounded-2xl p-8 shadow-lg mt-20">
+          <h2 className="text-3xl font-heading font-bold text-brand-primary mb-6">General Tutoring</h2>
+          <p className="text-text-secondary mb-4 leading-relaxed">
+            Whether you’re building fundamental skills or aiming for A* performance, my general tutoring sessions provide the structure, motivation, and expert guidance you need to succeed. Each lesson is fully customised to match your learning style and goals, turning tricky topics into clear, memorable ideas.
+          </p>
+          <ul className="list-disc pl-6 space-y-2 text-text-secondary">
+            <li>Diagnostic first lesson to map strengths and gaps</li>
+            <li>Personalised study plan with clear, measurable milestones</li>
+            <li>Interactive digital whiteboards and real-time quizzes</li>
+            <li>Weekly homework with detailed, constructive feedback</li>
+            <li>24/7 support between lessons via shared docs &amp; chat</li>
+            <li>Enrichment pathways for gifted students keen to push beyond the standard curriculum</li>
+            <li>Expert supervision for independent research, coding projects and EPQ-style coursework</li>
+            <li>Curriculum-bridging support for international students moving into the UK GCSE or A-Level system</li>
+          </ul>
+          <div className="mt-8 text-center">
+            <Button variant="primary" onClick={() => navigate('/contact')} className="inline-flex items-center">
+              Start Your Journey <ChevronRightIcon className="ml-2 w-4 h-4" />
+            </Button>
+          </div>
+        </div>
 
         {/* Pricing & FAQ Grid */}
         <div className="grid lg:grid-cols-5 gap-12 mt-20">
