@@ -1,17 +1,42 @@
 import React from 'react';
 
 export const SiteLogoIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 64 64"
-    {...props}
-  >
-    <g fill="none" strokeWidth="5">
-      <circle cx="32" cy="32" r="28" stroke="#8B5CF6" />
-      <ellipse cx="32" cy="32" rx="28" ry="14" stroke="#14B8A6" transform="rotate(-45 32 32)" />
-      <ellipse cx="32" cy="32" rx="28" ry="14" stroke="#22C55E" transform="rotate(45 32 32)" />
+  <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg" {...props}>
+    <defs>
+      <path id="ellipsePath" d="M10,50 A40,25 0 1,1 90,50 A40,25 0 1,1 10,50 Z" />
+    </defs>
+    <g transform="rotate(45 50 50)">
+      {/* Outer ellipse */}
+      <ellipse cx="50" cy="50" rx="40" ry="25" stroke="var(--color-primary-500)" strokeWidth="6" />
+
+      {/* Static orbiting dots */}
+      <circle cx="43" cy="50" r="7" fill="var(--color-primary-500)" />
+      <circle cx="50" cy="43" r="7" fill="var(--color-secondary-500)" />
+      <circle cx="57" cy="50" r="7" fill="var(--color-primary-500)" />
+      <circle cx="50" cy="57" r="7" fill="var(--color-secondary-500)" />
+
+      {/* Animated dots travelling along the ellipse */}
+      <circle r="5" fill="var(--color-accent-500)">
+        <animateMotion
+          dur="20.4s"
+          repeatCount="indefinite"
+          keyPoints="0;0;0.5;0.5;0;0"
+          keyTimes="0;0.14706;0.15686;0.64706;0.65686;1"
+        >
+          <mpath href="#ellipsePath" />
+        </animateMotion>
+      </circle>
+      <circle r="5" fill="var(--color-accent-500)">
+        <animateMotion
+          dur="20.4s"
+          repeatCount="indefinite"
+          keyPoints="0.5;0.5;1;1;0.5;0.5"
+          keyTimes="0;0.14706;0.15686;0.64706;0.65686;1"
+        >
+          <mpath href="#ellipsePath" />
+        </animateMotion>
+      </circle>
     </g>
-    <circle cx="32" cy="32" r="6" fill="white" />
   </svg>
 );
 
