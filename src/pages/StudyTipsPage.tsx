@@ -181,8 +181,7 @@ export const StudyTipsPage: React.FC = () => {
 
   return (
     <Section 
-      title="AI Study Assistant" 
-      subtitle="Choose an AI-powered study tool to get started."
+      title="AI Tools" 
       className="mt-12 sm:mt-16"
     >
       <div className="max-w-4xl mx-auto mb-12 sm:mb-16">
