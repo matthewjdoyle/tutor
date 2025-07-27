@@ -83,13 +83,7 @@ const themes: ThemeOption[] = [
     colors: ['#8b5cf6', '#7c3aed', '#6366f1'],
     category: 'General'
   },
-  {
-    id: 'earth',
-    name: 'Earth',
-    description: 'Natural earth tones',
-    colors: ['#92400e', '#78350f', '#451a03'],
-    category: 'General'
-  },
+
   {
     id: 'neon',
     name: 'Neon',
