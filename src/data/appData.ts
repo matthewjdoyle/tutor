@@ -22,14 +22,14 @@ export const testimonials = [
     imageUrl: "student-1.jpeg"
   },
   {
-    quote: "The AP Calculus sessions were incredibly helpful.",
-    name: "A. T. & T. O.",
+    quote: "Dr. Doyle helped us understand AP Calculus in a way our textbooks could not. We had only 5 weeks to prepare for the BC exam and went from struggling to feeling confident!",
+    name: "A. T. & T. O.", 
     course: "AP Calculus BC",
-    location: "Almaty, Khazakstan",
+    location: "Almaty, Kazakhstan",
     imageUrl: "student-2.jpg"
   },
   {
-    quote: "I highly recommend Dr. Doyle for anyone struggling with Maths. Patient, knowledgeable, and effective.",
+    quote: "Before working with Matt, I was really struggling with math and physics concepts. His patient teaching style and ability to break down complex topics made all the difference.",
     name: "F. A.",
     course: "Physics 11 & 12",
     location: "British Columbia, Canada",
