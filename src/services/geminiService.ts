@@ -84,54 +84,178 @@ export const generateMotivationalQuote = async (): Promise<string> => {
   }
 };
 
-export const solvePhysicsProblem = async (problem: string): Promise<string> => {
+export const breakdownProblem = async (problem: string): Promise<any> => {
   if (!ai) {
-    return "AI service is currently unavailable. Please ensure the API key is configured.";
+    throw new Error("AI service is currently unavailable. Please ensure the API key is configured.");
   }
 
   if (!problem.trim()) {
-    return "Please provide a physics problem to solve.";
+    throw new Error("Please provide a problem to solve.");
   }
 
+  const prompt = `
+    SYSTEM INSTRUCTION:
+    You are an expert problem-solving AI. Your sole purpose is to break down physics and mathematics problems into clear, structured steps. You MUST follow all instructions precisely and return ONLY a valid JSON object that adheres to the specified schema. Do not output any text, markdown, or notes outside of the JSON object.
+
+    CRITICAL JSON FORMATTING RULES:
+    - Return ONLY the JSON object, no other text before or after
+    - All LaTeX expressions must be properly escaped in JSON strings
+    - Use double backslashes \\\\ for LaTeX commands (e.g., \\\\frac, \\\\sqrt, \\\\pi)
+    - Escape quotes within strings with \\"
+    - Do not include any markdown formatting or extra text outside the JSON
+    - Ensure all strings are properly quoted and escaped
+    - Do not use single quotes, only double quotes
+    - Do not include trailing commas
+
+    PROBLEM TO SOLVE:
+    "${problem}"
+
+    INSTRUCTIONS:
+    1. Analyze the given problem carefully
+    2. Identify the key information and what needs to be found
+    3. Break down the solution into clear, logical steps
+    4. Use LaTeX for mathematical equations (use $ for inline math and $$ for block math) - it will be rendered with KaTeX
+    5. Provide a concise, step-by-step solution without personality or unnecessary explanations
+    6. Ensure all calculations are shown clearly
+    7. Include the final answer with proper units
+    8. IMPORTANT: Double-escape all LaTeX backslashes in the JSON output
+
+    REQUIRED JSON OUTPUT SCHEMA:
+    {
+      "title": "Problem Breakdown",
+      "problem": "The original problem statement",
+      "given": ["List of given information and values"],
+      "find": "What we need to find or calculate",
+      "principles": ["List of relevant formulas, laws, or principles (use LaTeX where appropriate)"],
+      "steps": [
+        {
+          "step": <integer>,
+          "description": "Clear description of what this step accomplishes",
+          "calculation": "The mathematical work for this step (use perfect LaTeX formatting for equations)",
+          "result": "The result of this step (with units if applicable)"
+        }
+      ],
+      "finalAnswer": "The final answer with proper units (use perfect LaTeX formatting if it involves an equation)",
+      "concept": "Brief explanation of the key physics/mathematics concept involved"
+    }
+
+    EXAMPLE OF PROPER LAPLACE ESCAPING:
+    - Instead of: \\frac{1}{2}
+    - Use: \\\\frac{1}{2}
+    - Instead of: \\sqrt{x^2 + y^2}
+    - Use: \\\\sqrt{x^2 + y^2}
+    - Instead of: \\alpha + \\beta
+    - Use: \\\\alpha + \\\\beta
+
+    REMEMBER: Start your response with { and end with }. Do not include any text outside the JSON object.
+  `;
+
   try {
-    const prompt = `You are Dr. Doyle, an expert physics tutor. Solve this physics problem step by step with clear explanations:
-
-"${problem}"
-
-You can use LaTeX for mathematical equations. Use $ for inline math (e.g., $E=mc^2$) and $$ for block math (e.g., $$\sum F = ma$$).
-
-Please provide:
-1. Given information
-2. What we need to find
-3. Relevant formulas/principles (use LaTeX where appropriate)
-4. Step-by-step solution with calculations (use LaTeX for equations)
-5. Final answer with proper units (use LaTeX if it involves an equation)
-6. Brief explanation of the physics concepts involved
-
-Format your response clearly with numbered steps and show all work. Ensure LaTeX is correctly formatted for rendering with KaTeX.`;
-    
     const response: GenerateContentResponse = await ai.models.generateContent({
       model: modelName,
       contents: prompt,
       config: {
-        thinkingConfig: { thinkingBudget: 10000 } // Allow more thinking for complex problems
+        responseMimeType: 'application/json',
+        thinkingConfig: { thinkingBudget: 15000 }
       }
     });
-    
+
     const text = response.text;
-    if (text === undefined) {
-        throw new Error("The AI model did not provide a text response.");
+    if (!text) {
+      throw new Error("The AI model returned an empty response. Cannot parse problem breakdown.");
     }
-    return text;
-  } catch (error) {
-    console.error("Error solving physics problem:", error);
-    if (error instanceof Error) {
-        if (error.message.includes('API key not valid')) {
-             return "Failed to solve problem: The API key is invalid. Please check your configuration.";
+
+    // Try to parse the JSON response
+    let parsedResponse;
+    let cleanedText = text.trim();
+    
+    try {
+      // First attempt: direct parsing
+      parsedResponse = JSON.parse(cleanedText);
+    } catch (parseError) {
+      console.error("JSON parse error:", parseError);
+      console.error("Raw response:", text);
+      
+      // Try to extract JSON from the response if there's extra text
+      const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        cleanedText = jsonMatch[0];
+        console.log("Extracted JSON:", cleanedText);
+        
+        try {
+          parsedResponse = JSON.parse(cleanedText);
+        } catch (extractError) {
+          console.error("Extracted JSON parse failed:", extractError);
         }
-         return `Failed to solve problem: ${error.message}. Please try again later.`;
+      }
+      
+      // If still not parsed, try minimal fixes
+      if (!parsedResponse) {
+        try {
+          // Only fix the most common issues that don't break valid JSON
+          let fixedText = cleanedText;
+          
+          // Fix single quotes to double quotes (but be careful)
+          fixedText = fixedText.replace(/(?<!\\)'/g, '"');
+          
+          // Remove trailing commas before closing brackets/braces
+          fixedText = fixedText.replace(/,(\s*[}\]])/g, '$1');
+          
+          // Try parsing again
+          parsedResponse = JSON.parse(fixedText);
+        } catch (secondParseError) {
+          console.error("Second parse attempt failed:", secondParseError);
+          
+          // Last resort: try to create a fallback response
+          console.warn("All parsing attempts failed, creating fallback response");
+          const fallbackResponse = {
+            title: "Problem Breakdown",
+            problem: problem,
+            given: ["Information provided in the problem"],
+            find: "Solution to the problem",
+            principles: ["Relevant mathematical and physical principles"],
+            steps: [
+              {
+                step: 1,
+                description: "Analysis of the problem",
+                calculation: text.substring(0, Math.min(500, text.length)) + "...",
+                result: "See calculation above"
+              }
+            ],
+            finalAnswer: "See step-by-step solution above",
+            concept: "The solution involves applying relevant mathematical and physical principles"
+          };
+          
+          return fallbackResponse;
+        }
+      }
     }
-    return "Failed to solve problem due to an unknown error. Please try again later.";
+
+    // Validate the response structure
+    if (!parsedResponse || typeof parsedResponse !== 'object') {
+      throw new Error("The AI response is not a valid object.");
+    }
+
+    // Check for required fields
+    const requiredFields = ['title', 'problem', 'given', 'find', 'principles', 'steps', 'finalAnswer', 'concept'];
+    const missingFields = requiredFields.filter(field => !(field in parsedResponse));
+    
+    if (missingFields.length > 0) {
+      console.warn(`Missing required fields: ${missingFields.join(', ')}`);
+      // For missing fields, we'll still try to use what we have
+      // The UI can handle partial data gracefully
+    }
+
+    return parsedResponse;
+  } catch (error) {
+    console.error("Error breaking down problem:", error);
+    if (error instanceof Error) {
+      if (error.message.includes('API key not valid')) {
+        throw new Error("Failed to solve problem: The API key is invalid.");
+      }
+      throw new Error(`Failed to solve problem: ${error.message}`);
+    }
+    throw new Error("Failed to solve problem due to an unknown error.");
   }
 };
 
