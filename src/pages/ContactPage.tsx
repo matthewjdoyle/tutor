@@ -62,8 +62,7 @@ export const ContactPage: React.FC = () => {
           </div>
         </form>
         <div className="mt-10 text-center text-text-muted">
-          <p>Alternatively, you can email directly at: <a href="mailto:info@drmatthewdoyle.com" className="text-brand-primary hover:underline">info@drmatthewdoyle.com</a></p>
-          <p className="text-xs mt-1">(This is a demo, form submission is simulated and data is logged to console.)</p>
+          <p>Alternatively, you can email directly at: <a href="mailto:matt@matthewd0yle.com" className="text-brand-primary hover:underline">matt@matthewd0yle.com</a></p>
         </div>
       </div>
     </Section>
