@@ -49,7 +49,6 @@ export const ServicesPage: React.FC = () => {
         {/* Course Offerings Section */}
         <Section 
           title="Available Courses" 
-          subtitle={`Comprehensive online tutoring by ${TUTOR_NAME} across multiple curricula and levels.`}
           className="pt-20"
         >
           <div className="card-elevated rounded-2xl p-8 shadow-lg">
