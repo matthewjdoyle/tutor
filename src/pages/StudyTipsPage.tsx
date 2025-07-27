@@ -28,6 +28,8 @@ const withMinimumDelay = async <T,>(promise: Promise<T>, minDelayMs: number = 20
   return result;
 };
 
+
+
 type CodeComponentProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLElement> & ExtraProps & {
   inline?: boolean;
   children?: ReactNode;
@@ -74,6 +76,8 @@ const defaultExams: Exam[] = [
     tasks: [],
   }
 ];
+
+
 
 export const StudyTipsPage: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<'physics' | 'timetable' | null>(null);
@@ -307,7 +311,7 @@ export const StudyTipsPage: React.FC = () => {
         )}
         
         {problemBreakdown && !isLoading && selectedOption === 'physics' && (
-          <div className="mt-8 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl shadow-xl border border-gradient-to-r from-brand-primary/20 to-brand-secondary/20 overflow-hidden animate-fade-in-up">
+          <div id="problem-breakdown-results" className="mt-8 bg-gradient-to-br from-white via-blue-50/30 to-purple-50/30 rounded-2xl shadow-xl border border-gradient-to-r from-brand-primary/20 to-brand-secondary/20 overflow-hidden animate-fade-in-up">
             {/* Header */}
             <div className="bg-gradient-to-r from-brand-primary to-brand-secondary p-6 text-white">
               <div className="flex items-center justify-between">
@@ -326,6 +330,14 @@ export const StudyTipsPage: React.FC = () => {
                     <div className="text-xs text-white/80">Steps</div>
                   </div>
                 </div>
+              </div>
+            </div>
+            
+            {/* Print Header - Only visible when printing */}
+            <div className="hidden print:block bg-gray-100 p-4 border-b border-gray-300">
+              <div className="text-center">
+                <h1 className="text-2xl font-bold text-gray-900 mb-2">Problem Solution</h1>
+                <p className="text-gray-600 text-sm">Generated on {new Date().toLocaleDateString()}</p>
               </div>
             </div>
             
@@ -397,7 +409,7 @@ export const StudyTipsPage: React.FC = () => {
                         {/* Step Header */}
                         <div className="bg-gradient-to-r from-indigo-500/10 to-purple-500/10 px-6 py-4 border-b border-indigo-200/30">
                           <h6 className="font-semibold text-indigo-900 text-lg">Step {step.step}</h6>
-                          <p className="text-indigo-700 mt-1">{step.description}</p>
+                          <p className="text-indigo-700 mt-1 whitespace-pre-line">{step.description}</p>
                         </div>
                         
                         {/* Calculation */}
@@ -474,10 +486,10 @@ export const StudyTipsPage: React.FC = () => {
                   <span className="font-medium">Problem solved with AI assistance</span>
                 </div>
                 <div className="flex gap-3">
-                  <Button onClick={resetToOptions} variant="outline" size="sm" className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white">
+                  <Button onClick={resetToOptions} variant="outline" size="sm" className="border-brand-primary text-brand-primary hover:bg-brand-primary hover:text-white print-hidden">
                     Try Another Problem
                   </Button>
-                  <Button onClick={() => window.print()} variant="primary" size="sm">
+                  <Button onClick={() => window.print()} variant="primary" size="sm" className="print-hidden">
                     Print Solution
                   </Button>
                 </div>

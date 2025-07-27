@@ -99,13 +99,14 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
 
     CRITICAL JSON FORMATTING RULES:
     - Return ONLY the JSON object, no other text before or after
-    - All LaTeX expressions must be properly escaped in JSON strings
-    - Use double backslashes \\\\ for LaTeX commands (e.g., \\\\frac, \\\\sqrt, \\\\pi)
+    - Use proper LaTeX formatting for mathematical expressions
     - Escape quotes within strings with \\"
     - Do not include any markdown formatting or extra text outside the JSON
     - Ensure all strings are properly quoted and escaped
     - Do not use single quotes, only double quotes
     - Do not include trailing commas
+    - IMPORTANT: Add line breaks (\\n) between sentences in descriptions and calculations for better readability
+    - CRITICAL: Do not include JSON formatting, metadata, or structural information in the content fields (description, calculation, result, etc.)
 
     PROBLEM TO SOLVE:
     "${problem}"
@@ -118,7 +119,8 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
     5. Provide a concise, step-by-step solution without personality or unnecessary explanations
     6. Ensure all calculations are shown clearly
     7. Include the final answer with proper units
-    8. IMPORTANT: Double-escape all LaTeX backslashes in the JSON output
+    8. Add line breaks (\\n) between sentences in descriptions and calculations for better readability
+    9. IMPORTANT: The content fields should contain only the actual solution content, not JSON formatting or metadata
 
     REQUIRED JSON OUTPUT SCHEMA:
     {
@@ -130,8 +132,8 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
       "steps": [
         {
           "step": <integer>,
-          "description": "Clear description of what this step accomplishes",
-          "calculation": "The mathematical work for this step (use perfect LaTeX formatting for equations)",
+          "description": "Clear description of what this step accomplishes. Use \\n for line breaks between sentences.",
+          "calculation": "The mathematical work for this step (use perfect LaTeX formatting for equations). Use \\n for line breaks between sentences.",
           "result": "The result of this step (with units if applicable)"
         }
       ],
@@ -139,15 +141,7 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
       "concept": "Brief explanation of the key physics/mathematics concept involved"
     }
 
-    EXAMPLE OF PROPER LAPLACE ESCAPING:
-    - Instead of: \\frac{1}{2}
-    - Use: \\\\frac{1}{2}
-    - Instead of: \\sqrt{x^2 + y^2}
-    - Use: \\\\sqrt{x^2 + y^2}
-    - Instead of: \\alpha + \\beta
-    - Use: \\\\alpha + \\\\beta
-
-    REMEMBER: Start your response with { and end with }. Do not include any text outside the JSON object.
+    REMEMBER: Start your response with { and end with }. Do not include any text outside the JSON object. The content fields should contain only the actual solution content.
   `;
 
   try {
@@ -165,9 +159,19 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
       throw new Error("The AI model returned an empty response. Cannot parse problem breakdown.");
     }
 
-    // Try to parse the JSON response
+    // Try to parse the JSON response with improved error handling
     let parsedResponse;
     let cleanedText = text.trim();
+    
+    // Function to extract JSON from text
+    const extractJSON = (text: string): string | null => {
+      // Try to find JSON object boundaries
+      const jsonMatch = text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        return jsonMatch[0];
+      }
+      return null;
+    };
     
     try {
       // First attempt: direct parsing
@@ -177,9 +181,9 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
       console.error("Raw response:", text);
       
       // Try to extract JSON from the response if there's extra text
-      const jsonMatch = cleanedText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        cleanedText = jsonMatch[0];
+      const extractedJSON = extractJSON(cleanedText);
+      if (extractedJSON) {
+        cleanedText = extractedJSON;
         console.log("Extracted JSON:", cleanedText);
         
         try {
@@ -189,24 +193,27 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
         }
       }
       
-      // If still not parsed, try minimal fixes
+      // If still not parsed, try more aggressive fixes
       if (!parsedResponse) {
         try {
-          // Only fix the most common issues that don't break valid JSON
           let fixedText = cleanedText;
           
+          // Only fix the most critical JSON issues, not LaTeX
           // Fix single quotes to double quotes (but be careful)
           fixedText = fixedText.replace(/(?<!\\)'/g, '"');
           
           // Remove trailing commas before closing brackets/braces
           fixedText = fixedText.replace(/,(\s*[}\]])/g, '$1');
           
+          // Fix unescaped quotes within strings
+          fixedText = fixedText.replace(/"([^"]*)"([^"]*)"([^"]*)"/g, '"$1\\"$2\\"$3"');
+          
           // Try parsing again
           parsedResponse = JSON.parse(fixedText);
         } catch (secondParseError) {
           console.error("Second parse attempt failed:", secondParseError);
           
-          // Last resort: try to create a fallback response
+          // Last resort: try to create a structured fallback response
           console.warn("All parsing attempts failed, creating fallback response");
           const fallbackResponse = {
             title: "Problem Breakdown",
@@ -218,11 +225,11 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
               {
                 step: 1,
                 description: "Analysis of the problem",
-                calculation: text.substring(0, Math.min(500, text.length)) + "...",
+                calculation: "The AI response could not be parsed properly. Please try again with a different problem.",
                 result: "See calculation above"
               }
             ],
-            finalAnswer: "See step-by-step solution above",
+            finalAnswer: "Please try again with a different problem",
             concept: "The solution involves applying relevant mathematical and physical principles"
           };
           
@@ -236,14 +243,72 @@ export const breakdownProblem = async (problem: string): Promise<any> => {
       throw new Error("The AI response is not a valid object.");
     }
 
-    // Check for required fields
+    // Check for required fields and provide defaults
     const requiredFields = ['title', 'problem', 'given', 'find', 'principles', 'steps', 'finalAnswer', 'concept'];
     const missingFields = requiredFields.filter(field => !(field in parsedResponse));
     
     if (missingFields.length > 0) {
       console.warn(`Missing required fields: ${missingFields.join(', ')}`);
-      // For missing fields, we'll still try to use what we have
-      // The UI can handle partial data gracefully
+      
+      // Provide defaults for missing fields
+      if (!parsedResponse.title) parsedResponse.title = "Problem Breakdown";
+      if (!parsedResponse.problem) parsedResponse.problem = problem;
+      if (!parsedResponse.given) parsedResponse.given = ["Information provided in the problem"];
+      if (!parsedResponse.find) parsedResponse.find = "Solution to the problem";
+      if (!parsedResponse.principles) parsedResponse.principles = ["Relevant mathematical and physical principles"];
+      if (!parsedResponse.steps) parsedResponse.steps = [];
+      if (!parsedResponse.finalAnswer) parsedResponse.finalAnswer = "See step-by-step solution above";
+      if (!parsedResponse.concept) parsedResponse.concept = "The solution involves applying relevant mathematical and physical principles";
+    }
+
+    // Ensure steps is an array and has proper structure
+    if (!Array.isArray(parsedResponse.steps)) {
+      parsedResponse.steps = [];
+    }
+
+    // Clean up and validate each step
+    parsedResponse.steps = parsedResponse.steps.map((step: any, index: number) => {
+      if (!step || typeof step !== 'object') {
+        return {
+          step: index + 1,
+          description: "Step description not available",
+          calculation: "Calculation not available",
+          result: "Result not available"
+        };
+      }
+
+      // Clean up the calculation field to remove any JSON artifacts
+      let cleanCalculation = step.calculation || "Calculation not available";
+      if (typeof cleanCalculation === 'string') {
+        // Remove any JSON-like artifacts that might have been included
+        cleanCalculation = cleanCalculation
+          .replace(/\{[^}]*\}/g, '') // Remove simple JSON objects
+          .replace(/\[[^\]]*\]/g, '') // Remove simple JSON arrays
+          .replace(/"([^"]*)":/g, '$1:') // Remove JSON key quotes
+          .replace(/,\s*}/g, '}') // Remove trailing commas
+          .replace(/,\s*\]/g, ']') // Remove trailing commas in arrays
+          .trim();
+        
+        // If the calculation is now empty or just contains JSON artifacts, provide a default
+        if (!cleanCalculation || cleanCalculation.length < 10) {
+          cleanCalculation = "Calculation not available";
+        }
+      }
+
+      return {
+        step: step.step || index + 1,
+        description: step.description || "Step description not available",
+        calculation: cleanCalculation,
+        result: step.result || "Result not available"
+      };
+    });
+
+    // Ensure arrays are actually arrays
+    if (!Array.isArray(parsedResponse.given)) {
+      parsedResponse.given = [parsedResponse.given || "Information provided in the problem"];
+    }
+    if (!Array.isArray(parsedResponse.principles)) {
+      parsedResponse.principles = [parsedResponse.principles || "Relevant mathematical and physical principles"];
     }
 
     return parsedResponse;

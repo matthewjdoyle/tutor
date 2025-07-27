@@ -1427,20 +1427,99 @@
   body * {
     visibility: hidden;
   }
-  #timetable-results, #timetable-results * {
+  #timetable-results, #timetable-results *,
+  #problem-breakdown-results, #problem-breakdown-results * {
     visibility: visible;
   }
-  #timetable-results {
+  #timetable-results,
+  #problem-breakdown-results {
     position: absolute;
     left: 0;
     top: 0;
     width: 100%;
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+    border: 1px solid #ccc !important;
+    margin: 0 !important;
+    padding: 20px !important;
   }
   .print-hidden {
-    display: none;
+    display: none !important;
   }
   .page-break {
     page-break-after: always;
+  }
+  /* Ensure proper text colors in print */
+  #problem-breakdown-results * {
+    color: black !important;
+  }
+  #problem-breakdown-results .bg-gradient-to-r,
+  #problem-breakdown-results .bg-gradient-to-br {
+    background: white !important;
+    border: 1px solid #ddd !important;
+  }
+  /* Ensure step badges are visible */
+  #problem-breakdown-results .bg-gradient-to-r.from-indigo-500.to-purple-500 {
+    background: #4f46e5 !important;
+    color: white !important;
+  }
+  /* Ensure final answer badge is visible */
+  #problem-breakdown-results .bg-gradient-to-r.from-emerald-500.to-teal-500 {
+    background: #10b981 !important;
+    color: white !important;
+  }
+  /* Ensure result indicators are visible */
+  #problem-breakdown-results .bg-green-500 {
+    background: #22c55e !important;
+  }
+  #problem-breakdown-results .bg-green-100 {
+    background: #dcfce7 !important;
+  }
+  #problem-breakdown-results .bg-orange-100 {
+    background: #fed7aa !important;
+  }
+  #problem-breakdown-results .bg-indigo-100 {
+    background: #c7d2fe !important;
+  }
+  #problem-breakdown-results .bg-emerald-100 {
+    background: #a7f3d0 !important;
+  }
+  /* Improve spacing for print */
+  #problem-breakdown-results .space-y-8 > * + * {
+    margin-top: 1.5rem !important;
+  }
+  #problem-breakdown-results .space-y-6 > * + * {
+    margin-top: 1rem !important;
+  }
+  #problem-breakdown-results .space-y-2 > * + * {
+    margin-top: 0.25rem !important;
+  }
+  #problem-breakdown-results .space-y-3 > * + * {
+    margin-top: 0.5rem !important;
+  }
+  /* Ensure proper page breaks */
+  #problem-breakdown-results .p-8 {
+    padding: 1rem !important;
+  }
+  #problem-breakdown-results .p-6 {
+    padding: 0.75rem !important;
+  }
+  /* Hide decorative elements in print */
+  #problem-breakdown-results .animate-fade-in-up {
+    animation: none !important;
+  }
+  /* Ensure text is readable */
+  #problem-breakdown-results p,
+  #problem-breakdown-results li,
+  #problem-breakdown-results span {
+    font-size: 12pt !important;
+    line-height: 1.4 !important;
+  }
+  #problem-breakdown-results h5,
+  #problem-breakdown-results h6 {
+    font-size: 14pt !important;
+    font-weight: bold !important;
   }
 }
 
