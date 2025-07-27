@@ -10,7 +10,7 @@ if (!API_KEY) {
 }
 
 const ai = API_KEY ? new GoogleGenAI({ apiKey: API_KEY }) : null;
-const modelName = 'gemini-2.5-flash-preview-04-17'; // Use the specified model
+const modelName = 'gemini-2.5-flash-lite'; // Use the specified model
 
 export const generateStudyTip = async (topic: string): Promise<string> => {
   if (!ai) {
