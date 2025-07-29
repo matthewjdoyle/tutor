@@ -37,7 +37,7 @@ export const CheckoutPage: React.FC = () => {
 
   if (getItemCount() === 0 && !isSubmitting) { 
       return (
-        <Section title="Checkout" subtitle="Your cart is empty.">
+        <Section title="Checkout" subtitle="Your cart is empty." className="mt-12 sm:mt-16">
             <div className="text-center">
                 <p className="text-text-secondary mb-6">Please add items to your cart before proceeding to checkout.</p>
                 <Button variant="primary" onClick={() => navigate('/learning-resources')}>Return to Resources</Button>
@@ -47,7 +47,7 @@ export const CheckoutPage: React.FC = () => {
   }
 
   return (
-    <Section title="Checkout" subtitle="Please fill in your details to complete the purchase.">
+    <Section title="Checkout" subtitle="Please fill in your details to complete the purchase." className="mt-12 sm:mt-16">
       <div className="max-w-4xl mx-auto md:flex md:space-x-12">
         <div className="md:w-3/5 bg-neutral-surface p-8 rounded-xl border border-neutral-border mb-8 md:mb-0">
           <h3 className="text-2xl font-heading font-semibold text-text-primary mb-6">Your Details</h3>

@@ -10,7 +10,7 @@ export const OrderConfirmationPage: React.FC = () => {
   const orderNumber = location.state?.orderNumber || `ORD-${Date.now()}`;
 
   return (
-    <Section title="Thank You For Your Order!" subtitle={`Your order #${orderNumber} has been placed successfully.`}>
+    <Section title="Thank You For Your Order!" subtitle={`Your order #${orderNumber} has been placed successfully.`} className="mt-12 sm:mt-16">
       <div className="max-w-lg mx-auto text-center bg-neutral-surface p-8 sm:p-12 rounded-xl border border-neutral-border">
         <svg className="w-16 h-16 text-green-500 mx-auto mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
         <p className="text-text-secondary mb-4 leading-relaxed">

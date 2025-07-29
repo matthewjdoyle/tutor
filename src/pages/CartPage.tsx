@@ -13,7 +13,7 @@ export const CartPage: React.FC = () => {
 
   if (getItemCount() === 0) {
     return (
-      <Section title="Your Cart is Empty" subtitle="Looks like you haven't added any items yet.">
+      <Section title="Your Cart is Empty" subtitle="Looks like you haven't added any items yet." className="mt-12 sm:mt-16">
         <div className="text-center">
           <ShoppingCartIcon className="w-24 h-24 mx-auto text-neutral-border mb-6" />
           <p className="text-text-secondary mb-8">Browse our resources to find materials that suit your needs.</p>
@@ -26,7 +26,7 @@ export const CartPage: React.FC = () => {
   }
 
   return (
-    <Section title="Your Shopping Cart" subtitle={`You have ${getItemCount()} item(s) in your cart.`}>
+    <Section title="Your Shopping Cart" subtitle={`You have ${getItemCount()} item(s) in your cart.`} className="mt-12 sm:mt-16">
       <div className="max-w-4xl mx-auto">
         <div className="bg-neutral-surface rounded-lg border border-neutral-border overflow-hidden">
           <div className="hidden sm:flex px-6 py-3 border-b border-neutral-border text-xs text-text-muted font-semibold uppercase tracking-wider">

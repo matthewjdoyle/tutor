@@ -524,7 +524,7 @@ export const HomePage: React.FC = () => {
   return (
     <div className="animate-fade-in-up scroll-smooth">
       {/* Hero Section - Full viewport height */}
-      <section className="h-screen flex items-center justify-center bg-gradient-mesh relative overflow-hidden">
+      <section className="h-screen flex items-center justify-center bg-gradient-mesh relative overflow-hidden pt-8 sm:pt-12 md:pt-16 lg:pt-20">
         {/* Beautiful Background Pattern */}
         <div className="absolute inset-0 bg-gradient-hero" />
 

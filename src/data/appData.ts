@@ -34,5 +34,12 @@ export const testimonials = [
     course: "Physics 11 & 12",
     location: "British Columbia, Canada",
     imageUrl: "student-3.jpg"
-  }
+  },
+  {
+    quote: "Our lesson's were very interesting. The quality and amount of learning materials was high and sufficient. I would recommend Dr Doyle to anyone who wants to improve their maths skills.",
+    name: "B. P.",
+    course: "A-Level Maths",
+    location: "Kyiv, Ukraine",
+    imageUrl: "student-4.jpeg"
+  },
 ];
