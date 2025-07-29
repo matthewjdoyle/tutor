@@ -29,8 +29,8 @@ export const testimonials = [
     imageUrl: "student-2.jpg"
   },
   {
-    quote: "Before working with Matt, I was really struggling with math and physics concepts. His patient teaching style and ability to break down complex topics made all the difference.",
-    name: "F. A.",
+    quote: "Before working with Matt, I was really struggling with physics concepts, especially quantum mechanics. His patient teaching style and ability to break down complex topics made all the difference.",
+    name: "J. A.",
     course: "Physics 11 & 12",
     location: "British Columbia, Canada",
     imageUrl: "student-3.jpg"
