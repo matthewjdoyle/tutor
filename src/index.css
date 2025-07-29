@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Import Google Fonts for hero titles */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+/* Import Computer Modern font for LaTeX equations */
+@import url('https://fonts.cdnfonts.com/css/computer-modern');
+
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
@@ -1638,4 +1644,184 @@
 /* Ensure smooth theme transitions */
 * {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
-} 
+}
+
+/* Scrolling Equations Animation */
+.equations-scroll-container {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+}
+
+.equations-scroll {
+  position: relative;
+  height: 100%;
+  width: 100%;
+}
+
+.equation-item {
+  position: absolute;
+  right: 0;
+  padding: 0 2rem;
+  transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 1;
+  width: 100%;
+  text-align: right;
+}
+
+/* Position the 4 equations vertically with reduced spacing */
+.equation-position-0 {
+  top: 5%;
+  transform: translateY(0%);
+}
+
+.equation-position-1 {
+  top: 30%;
+  transform: translateY(-50%);
+}
+
+.equation-position-2 {
+  top: 55%;
+  transform: translateY(-50%);
+}
+
+.equation-position-3 {
+  top: 80%;
+  transform: translateY(-50%);
+}
+
+/* Sliding animation states */
+.equation-item.sliding.equation-position-0 {
+  top: -20%;
+  opacity: 0;
+}
+
+.equation-item.sliding.equation-position-1 {
+  top: 5%;
+  transform: translateY(0%);
+}
+
+.equation-item.sliding.equation-position-2 {
+  top: 30%;
+  transform: translateY(-50%);
+}
+
+.equation-item.sliding.equation-position-3 {
+  top: 55%;
+  transform: translateY(-50%);
+}
+
+.equation-item:hover {
+  /* Removed hover effect */
+}
+
+.equation-text {
+  font-family: 'Computer Modern', 'CMU Serif', 'Times New Roman', 'DejaVu Serif', serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  text-align: right;
+  line-height: 1.4;
+  opacity: 0.8;
+  white-space: nowrap;
+  font-style: italic;
+}
+
+/* LaTeX formatting styles */
+.equation-text sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+.equation-text sub {
+  font-size: 0.7em;
+  vertical-align: sub;
+  line-height: 0;
+}
+
+.equation-text .fraction {
+  display: inline-block;
+  vertical-align: middle;
+  text-align: center;
+  margin: 0 0.2em;
+  position: relative;
+}
+
+.equation-text .fraction .numerator {
+  display: block;
+  border-bottom: 1px solid currentColor;
+  padding: 0 0.2em 0.1em 0.2em;
+  line-height: 1.2;
+  font-size: 0.9em;
+}
+
+.equation-text .fraction .denominator {
+  display: block;
+  padding: 0.1em 0.2em 0 0.2em;
+  line-height: 1.2;
+  font-size: 0.9em;
+}
+
+.equation-text .latex-command {
+  font-style: italic;
+  font-weight: normal;
+}
+
+.equation-text strong {
+  font-weight: bold;
+}
+
+@keyframes equationFloat {
+  0% {
+    top: -15%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 115%;
+    opacity: 0;
+  }
+}
+
+/* Hero title font */
+.hero-title-font {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Responsive adjustments for equations */
+@media (max-width: 1024px) {
+  .equation-text {
+    font-size: 1.35rem;
+  }
+  
+  .equation-item {
+    padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .equation-text {
+    font-size: 1.25rem;
+  }
+  
+  .equation-item {
+    padding: 0 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .equation-text {
+    font-size: 1.1rem;
+  }
+  
+  .equation-item {
+    padding: 0 0.75rem;
+  }
+}

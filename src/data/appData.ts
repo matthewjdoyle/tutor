@@ -6,11 +6,11 @@ export const TUTOR_NAME = "Dr. Matt Doyle";
 export const navLinks: NavLinkItem[] = [
   { path: '/', label: 'Home' },
   { path: '/about', label: 'About' },
-  { path: '/services', label: 'Services' },
-  { path: '/learning-resources', label: 'Learning Resources' },
-  { path: '/study-tips', label: 'AI Study Tips' },
-  { path: '/cart', label: 'Cart', icon: ShoppingCartIcon },
+  { path: '/services', label: 'Tutoring' },
+  { path: '/learning-resources', label: 'Resources' },
+  { path: '/study-tips', label: 'AI Tools' },
   { path: '/contact', label: 'Contact' },
+  { path: '/cart', label: 'Cart', icon: ShoppingCartIcon },
 ];
 
 export const testimonials = [

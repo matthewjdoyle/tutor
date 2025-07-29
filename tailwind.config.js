@@ -9,6 +9,7 @@ export default {
       fontFamily: {
         'heading': ['Inter', 'system-ui', 'sans-serif'],
         'body': ['Inter', 'system-ui', 'sans-serif'],
+        'hero': ['Playfair Display', 'serif'],
       },
       colors: {
         // Theme-based colors using CSS custom properties
