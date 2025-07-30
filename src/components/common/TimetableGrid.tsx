@@ -82,7 +82,7 @@ export const TimetableGrid: React.FC<TimetableGridProps> = ({ schedule }) => {
       >
         {/* Day Headers */}
         <div style={{ gridColumn: 1, gridRow: 1 }} className="sticky top-0 left-0 z-20 bg-neutral-surface" /> 
-        {activeDays.map((day, index) => (
+        {activeDays.map((day) => (
           <div key={day} className="text-center font-semibold sticky top-0 bg-neutral-surface z-10 pb-1 border-b border-l border-neutral-border px-2 flex items-center justify-center text-xs">
             {day}
           </div>

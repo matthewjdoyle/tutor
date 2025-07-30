@@ -190,7 +190,7 @@ export const courseSections: CourseSection[] = [
         id: 'act',
         name: 'ACT Test Prep',
         subjects: ['Math', 'Science', 'Reading'],
-        description: [''],
+        description: '',
         imageUrl: './act_math_and_science.png'
       }
     ]

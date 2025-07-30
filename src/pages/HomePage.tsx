@@ -4,7 +4,7 @@ import { Section } from "../components/common/Section";
 import { Button } from "../components/common/Button";
 import { ProductCard } from "../components/product/ProductCard";
 import { TestimonialCard } from "../components/testimonial/TestimonialCard";
-import { ChevronRightIcon, ChevronLeftIcon, RobotIcon } from "../assets/icons";
+import { ChevronRightIcon, ChevronLeftIcon } from "../assets/icons";
 import {
   TUTOR_NAME,
   courseSections,
