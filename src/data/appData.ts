@@ -1,5 +1,5 @@
 import { NavLinkItem } from '../types';
-import { ShoppingCartIcon, AcademicCapIcon, CalculatorIcon, BeakerIcon, CodeBracketIcon } from '../assets/icons'; // Ensure correct path to icons
+import { ShoppingCartIcon } from '../assets/icons'; // Ensure correct path to icons
 
 export const TUTOR_NAME = "Dr. Matt Doyle";
 

@@ -33,7 +33,7 @@ export const CartItemRow: React.FC<CartItemRowProps> = ({ item, onUpdateQuantity
           aria-label="Quantity"
           value={item.quantity}
           onChange={handleQuantityChange}
-          onBlur={(e) => item.quantity < 1 && onUpdateQuantity(item.id, 1)} 
+          onBlur={() => item.quantity < 1 && onUpdateQuantity(item.id, 1)} 
           className="w-10 h-8 text-center border-y border-neutral-border mx-1 text-text-primary bg-neutral-surface focus:ring-1 focus:ring-brand-primary focus:border-brand-primary"
           min="1"
         />

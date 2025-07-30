@@ -6,7 +6,7 @@ import { FaqItem } from '../components/common/FaqItem';
 import TimezoneWorkingHours from '../components/common/TimezoneWorkingHours';
 import { ChevronRightIcon } from '../assets/icons';
 import { PencilIcon } from '../assets/icons';
-import { TUTOR_NAME, courseSections } from '../data';
+import { courseSections } from '../data';
 import { faqData } from '../data/servicesPageData';
 import { examBoardLogos } from '../data/examBoardsData';
 import { HowItWorksTimeline } from '../components/common/HowItWorksTimeline';

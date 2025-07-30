@@ -201,7 +201,6 @@ export const ThemeSwitcher: React.FC = () => {
     setIsOpen(false);
   };
 
-  const currentThemeOption = themes.find(t => t.id === currentTheme)!;
   const generalThemes = themes.filter(t => t.category === 'General');
   const scientificThemes = themes.filter(t => t.category === 'Scientific');
 

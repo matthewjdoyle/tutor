@@ -1,6 +1,5 @@
-import React, { useState, ChangeEvent, HTMLAttributes, ReactNode, DetailedHTMLProps, HTMLProps } from 'react';
+import React, { useState, ChangeEvent, HTMLAttributes, ReactNode, DetailedHTMLProps } from 'react';
 import ReactMarkdown, { ExtraProps } from 'react-markdown';
-import remarkGfm from 'remark-gfm';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
@@ -35,16 +34,11 @@ type CodeComponentProps = DetailedHTMLProps<HTMLAttributes<HTMLElement>, HTMLEle
   children?: ReactNode;
 };
 
-type PreComponentProps = DetailedHTMLProps<HTMLProps<HTMLPreElement>, HTMLPreElement> & ExtraProps;
-
 type Exam = {
   subject: string;
   date: string;
   tasks: string[];
 };
-
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-const timeSlots = ["Morning (9am-12pm)", "Afternoon (1pm-5pm)", "Evening (6pm-9pm)"];
 
 type StudyTimes = {
   [day: string]: string[];
@@ -94,7 +88,6 @@ export const StudyTipsPage: React.FC = () => {
   const [timetable, setTimetable] = useState<any>(null);
 
   // Common State
-  const [result, setResult] = useState<string>('');
   const [problemBreakdown, setProblemBreakdown] = useState<any>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
@@ -174,7 +167,6 @@ export const StudyTipsPage: React.FC = () => {
   const resetToOptions = () => {
     setSelectedOption(null);
     setProblemInput('');
-    setResult('');
     setProblemBreakdown(null);
     setError('');
     setExams(defaultExams);
@@ -397,7 +389,7 @@ export const StudyTipsPage: React.FC = () => {
               <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-6 rounded-xl border border-indigo-200/50">
                 <h5 className="text-lg font-semibold text-indigo-900 mb-6">Solution Steps</h5>
                 <div className="space-y-6">
-                  {problemBreakdown.steps.map((step: any, index: number) => (
+                  {problemBreakdown.steps.map((step: any) => (
                     <div key={step.step} className="relative">
                       {/* Step Number Badge */}
                       <div className="absolute -left-3 top-0 w-8 h-8 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-full flex items-center justify-center text-sm font-bold shadow-lg">
