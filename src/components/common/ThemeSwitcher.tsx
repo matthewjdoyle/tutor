@@ -151,15 +151,16 @@ const themes: ThemeOption[] = [
 ];
 
 export const ThemeSwitcher: React.FC = () => {
-  const [currentTheme, setCurrentTheme] = useState<Theme>('ocean');
+  const [currentTheme, setCurrentTheme] = useState<Theme>('turbo');
   const [isOpen, setIsOpen] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
   useEffect(() => {
-    // Always choose a random theme on page load/refresh
-    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
-    setCurrentTheme(randomTheme.id);
-    applyTheme(randomTheme.id);
+    // Check for saved theme in localStorage, otherwise use default 'turbo'
+    const savedTheme = localStorage.getItem('theme') as Theme;
+    const themeToUse = savedTheme && themes.some(t => t.id === savedTheme) ? savedTheme : 'turbo';
+    setCurrentTheme(themeToUse);
+    applyTheme(themeToUse);
   }, []);
 
   useEffect(() => {
@@ -223,7 +224,7 @@ export const ThemeSwitcher: React.FC = () => {
           />
           
           {/* Theme Menu */}
-          <div className="absolute bottom-full right-0 mb-2 w-80 bg-surface-elevated border border-border-primary rounded-xl shadow-lg z-50 overflow-hidden max-h-96 overflow-y-auto">
+          <div className="absolute bottom-full right-0 mb-2 w-80 bg-surface-elevated border border-border-primary rounded-xl shadow-lg z-60 overflow-hidden max-h-96 overflow-y-auto">
             <div className="p-3 border-b border-border-muted sticky top-0 bg-surface-elevated">
               <h3 className="text-sm font-semibold text-text-primary">Choose Theme</h3>
               <p className="text-xs text-text-muted">Switch between color schemes</p>
